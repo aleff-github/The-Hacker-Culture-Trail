@@ -12,18 +12,18 @@ ufficiale
 
 
 :: 0 {"position":"400,25","size":"100,100"}
-La stanza è quasi buia. C'è una finestra chiusa, fuori piove ed è notte fonda. Un neon vibra sopra di te emanando un rumore simile a quello di una mosca. A ogni tremolio, le ombre cambiano mezzo millimetro. Il terminale sul tavolo è l’unica luce pulita: un rettangolo freddo che ti taglia le dita quando ti avvicini.
+La stanza è quasi buia. C'è una finestra leggermente aperta, fuori piove ed è notte fonda. Un neon vibra sopra di te emanando un rumore simile a quello di una mosca. A ogni tremolio, le ombre cambiano mezzo millimetro. Il terminale sul tavolo è l’unica luce pulita: un rettangolo freddo che ti taglia le dita quando ti avvicini.
 
 Sul pavimento c’è un foglio stropicciato. Ha preso umidità nell’angolo e la carta si è raggrinzita. In un angolo, un quaderno nero chiuso: copertina opaca, nessun titolo. Non sembra dimenticato. Sembra posizionato.
 
 Il cursore lampeggia sullo schermo con una regolarità a dir poco fastidiosa, è un invito, oppure una sfida...
 
-[[Scelta 1: Prendere il foglio e guardare meglio la stanza|STANZA.0]]
+[[Scelta 1: Prendere il foglio e guardare meglio la stanza|STANZA.FOGLIO]]
 
 [[Scelta 2: Digita sul terminale|TERMINAL.0]]
 
 
-:: ADATTATORE-INSERITO {"position":"900,525","size":"100,100"}
+:: ADATTATORE-INSERITO {"position":"100,450","size":"100,100"}
 ADATTATORE-INSERITO
 
 Il click dell’adattatore è quasi impercettibile. Torni al computer e lo schermo sembra lo stesso… ma ad un certo punto si apre un programma.
@@ -41,13 +41,47 @@ Tuono.
 Tremore.
 Brivido.
 Sospiro e...
+
+ma questo è un ticchettio?
  
-
 [[Clicca sul pulsante 'Genesi'|GENESI]] 
-[[Clicca sulla X e chiude il programma TODO|TODO]]
+[[Cerchi di capire da dove viene quel ticchettio|STANZA.TICCHETTIO]]
 
 
-:: FINE {"position":"1025,400","size":"100,100"}
+:: DEFCON-BADGE.RUN {"position":"250,450","size":"100,100"}
+DEFCON-BADGE.RUN
+
+Giri la placca tra le mani e leggi: istruzioni scritte per chi già sa come si impara davvero, cioè facendo danni piccoli e misurati.
+
+Ti dice di accenderla. Ti dice di puntare. Ti dice di premere.
+
+Il display rotondo si anima con un lampo freddo, come se aprisse un occhio nel buio. I LED lungo il bordo si svegliano a scatti: una corona che prende respiro, poi si assesta in un ritmo. Non è un’animazione carina: è un linguaggio visivo. Ti sta dicendo “sono online”, ma lo dice come lo direbbe un’insegna clandestina.
+
+La tieni davanti a te e all’improvviso ti senti ridicolo: un adulto con un giocattolo.
+
+Il pulsantone è lì, centrale. Lo premi.
+
+“Pew.”
+
+Un effetto sonoro che ti ricorda lo sparo di una pistola blaster. Subito dopo senti un micro-vibrare nella scocca, o forse è solo l’eco del gesto che ti risale nel polso. I LED reagiscono: un giro di luce corre lungo i bordi, come una scia. Il display cambia, mostra qualcosa che somiglia a un contatore, a una conferma, a un “colpo sparato” registrato da una macchina che prende sul serio la finzione.
+
+Ripeti.
+
+“Pew. Pew.”
+
+I LED cambiano intensità, sembrerebbe che uno non funzioni bene. Forse il sensore sta leggendo luce. Forse sta cercando un riflesso. Forse è un emettitore e tu non lo vedi perché non è nel tuo spettro. Ti viene da sorridere.
+
+Provi a puntarlo contro il monitor, come se potesse essere un bersaglio. Premi.
+
+“Pew”.
+
+Il display reagisce con un messaggio breve, "bentornato", seguito da un pulsante "Scopri".
+
+[[Clicca sul pulsante 'Scopri'|SCOPRI-DEFCON]] 
+[[Clicca sulla X e chiudi il programma|TERMINAL.0]]
+
+
+:: FINE {"position":"50,700","size":"100,100"}
 FINE
 
 <<set _cur = (State.variables.curiosita === undefined) ? 0 : $curiosita>>
@@ -190,7 +224,7 @@ Hai vinto a frogger."
 La finestra resta aperta. Nessun tasto “OK”. Nessuna conferma.
 Come se leggere fosse già parte della prova.
 
-[[Chiudi e torna al terminale|TERMINAL.BASE]]
+[[Fine|FINE]]
 
 
 :: FROGGER.WIN {"position":"525,525","size":"100,100"}
@@ -214,7 +248,7 @@ E sotto, come se fosse la cosa più normale del mondo, due pulsanti:
 [[Chiudi e torna al terminale|TERMINAL.BASE]]
 
 
-:: GENESI {"position":"1025,650","size":"100,100"}
+:: GENESI {"position":"50,575","size":"100,100"}
 Clicchi.
 
 Per un istante non succede niente. Poi senti la ventola del computer che inizia a lavorare quasi come se sapesse che le aspetta tanto lavoro da fare. Poi la griglia, a quadretti con sfondo bianco, prende vita con una freddezza elegante: quadratini neri che appaiono, spariscono, riappaiono altrove. Non c’è grafica. C’è solo ritmo.
@@ -260,86 +294,213 @@ Tremore.
 Brivido.
 Sospiro e…
 
-Il cursore lampeggia in basso, come se chiedesse: “Hai visto abbastanza?”
+[[Fine|FINE]]
 
 
-:: NAUTILUS {"position":"650,275","size":"100,100"}
+:: HOMEBREW {"position":"175,700","size":"100,100"}
+HOMEBREW
+
+Mentre ti avvicini alla porta ti rendi conto in maniera sempre più netta che quelle urla non sono di litigio, anzi, giureresti il contrario.
+
+La porta di legno lascia passare un filo di luce gialla attraverso alcune fessure laterali.
+
+"Attraverso la condivisione della nostra esperienza e scambiandoci i consigli, noi facciamo progredire quest'arte e rendiamo possibile alla gentre avere computer a costi più bassi."
+
+e a ruota sostenevano la tesi con vocì concordanti.
+
+Ma quale arte? Pensi.
+
+Senti bisbigliare altre voci ma abbassano il volume, quasi bisbigliano.
+
+Ti sposti, pensando che ti abbiano sentito, ma dopo poco ripartono, questa volta sembra queste persone, a pezzi e non in maniera ordinata, dettano delle frasi.
+
+Quello che dicevano, più o meno, faceva così:
+
+E' evidentissimo che la gente vuole i computer probabilmente per il proprio divertimento o per uso educativo. Perché le grandi industrie trascurano questo mercato? Sono occupate a vendersi le une con le altre (e al governo e ai militari) macchine dai costi gonfiati. Non vogliono vendere direttamente al pubblico. Sono molto contento del successo che la Mits sta avendo con l'Altair perché ciò determinerà tre cose: 1) sveglierà le altre aziende sulla domanda di computer a basso costo nelle abitazioni; 2) provocherà la formazione di computer club e di gruppi di appassionati che riempiranno il vuoto delle conoscenze tecnologiche; 3) contribuirà a smitizzare l'immagine dei computer…"
+
+Macchine ad alto costo? Pensi.
+
+Altair, Militari, computer club, queste sono le parole che ti ronzono nella testa ma non fai in tempo a contestualizzarle che...
+
+"Chi c'è li dietro!?"
+
+"Cazzo, mi hanno scoperto..."
+
+[[Scelta 1: Chiudi la porta a chiave ed indietreggi|0]]
+[[Scelta 2: Apri la porta|HOMEBREW.APRI-LA-PORTA]]
+
+
+:: HOMEBREW.APRI-LA-PORTA {"position":"175,825","size":"100,100"}
+HOMEBREW.APRI-LA-PORTA
+
+
+:: NAUTILUS {"position":"700,300","size":"100,100"}
 
 
 
-:: STANZA.0 {"position":"400,150","size":"100,100"}
-Il foglio è più pesante di quanto sembri, e ruvido al tatto: carta spessa, stampata male, come se la stampante avesse sofferto prima di sputarlo fuori. C’è un diagramma che assomiglia a un pannello di porte numerate. Non è una mappa per orientarsi, sembrerebbe più una mappa per "scegliere” (?).
+:: SCOPRI-DEFCON {"position":"250,575","size":"100,100"}
+SCOPRI-DEFCON
 
-Qualcuno ha cerchiato “P1” e scritto a penna: “disciplina prima, rumore dopo”. La frase è pratica, ma sotto c’è una tensione: come se “rumore” fosse una colpa che però tutti, prima o poi, commettono.
+Il cursore non lampeggia più. Lo schermo sembrebbe come se stesse diventando un varco verso chissà dove. Come se qualcuno avesse tolto il vetro e al suo posto ci fosse aria fredda, nera, piena di elettricità statica.
+
+Appare un simbolo, una sorta di logo.
+
+Un teschio che sorride. Non si tratta certamente di un teschio macabro da cimitero, anzì, tutt'altro, sembra simpatico con un sorriso sfacciato, quasi provocante. Sotto il ghigno, due ossa incrociate: un gesto antico, da bandiera pirata, ma qui non c’è mare.
+
+Forse c'è un parallelismo tra pirata dei mari e navigazione dell'internet? Pensi.
+
+C’è solo la stessa promessa che il mare faceva ai navigatori: “Se esci dalle rotte, scopri.”
+
+Il testo nasce lentamente, come se venisse battuto proprio in quel momento, beh in realtà non hai la certezza che non stia esattamente accadendo ciò. Ogni riga sembra pesare. Ogni parola sembra scelta per non essere troppo gentile.
+
+“Ti sembra un logo”, dice la pagina.
+
+Sembra come se i sistemi non abbiano rispetto di te. Non gliene importa se sei stanco, se sei ‘autorizzato’, se hai un titolo. Funzionano, o meno, e basta.
+
+"Il simbolo si avvicina, si ingrandisce o sono io che mi sto avvicinando?" Pensi.
+
+“Guarda dietro al sorriso”, continua la pagina. “È la faccia di chi ha già smesso di fingere che i sistemi siano neutri o gentili. I sistemi non ti devono rispetto. Non ti conoscono. Non ti odiano. Non ti premiano. Ti rispondono. Punto."
+
+Duro.
+
+“Guarda dietro al sorriso”, continua la pagina. “Non c’è una mascotte. C’è una controcultura.
+
+C’è un frammento di memoria - quando la conoscenza passava anche di mano in mano, fisicamente, come un biglietto piegato, come un dischetto infilato in tasca.
+
+C’è un quadrante telefonico, la ruota dei numeri. Perché prima dei router e del Wi-Fi c’erano i toni. E chi sapeva ascoltarli capiva che una rete non è magia: è convenzione. È fiducia. È errore. È ritmo."
+
+*Suono*.
+Popup.
+Skittish & Bus - Love Me Better (Liquid Edit).
+"I don’t know why I’m here" canta la canzone.
+
+Riprende a scrivere.
+
+"E c’è una serratura. Non per romanticismo. Per ricordarti che l’accesso è sempre stato un problema umano prima che tecnico. A volte è metallo. A volte è carta. A volte è un algoritmo. Ma l’idea è la stessa: una porta, e qualcuno che decide chi può attraversarla.”
+
+La pagina si interrompe un istante, come se trattenesse il fiato.
+
+“Questi segni non dicono ‘siamo pericolosi’. Dicono: ‘siamo curiosi’. Dicono: entra con rispetto, ma entra davvero. Non per vantarti. Non per fare rumore. Per capire.”
+
+La luce del monitor pulsa. Il portale non ti sta più parlando solo del simbolo: ti sta parlando di un luogo. Il resto della stanza sembra quasi cambiare colore, anzi, sembra prendere colore.
+
+Viola.
+
+"Cosa mi sta accadendo?". Pensi.
+
+“È iniziato come iniziano le cose che poi diventano inevitabili: senza una fondazione, senza una targa, senza un’autorità che timbra.
+
+Solo persone. Persone attirate da altre persone. Persone che si riconoscono dal modo in cui guardano un dispositivo: non come consumo, ma come domanda.
+
+Una città costruita per la finzione, scelta quasi per scherzo… e proprio per questo perfetta. Perché in un posto dove tutto è maschera, anche la verità può travestirsi e passare inosservata.”
+
+"La verità", pensi.
+
+"Ma che sta succedendo?!", dici con tono preoccupato. La stanza sembra iniziare a cambiare forma, come se mi scoprissi dentro uno slime.
+
+Melmoso.
+
+Le righe successive sembrano più secche, più tecniche.
+
+“Un convegno? Seriamente credi che fosse un convegno?! Era una cazzo di collisione. Un accampamento temporaneo di menti che avevano bisogno di incontrarsi per scambiarsi attrezzi, storie, metodi. Nessun ‘pubblico’. Solo partecipanti.
+
+Poi è cresciuto. Non perché qualcuno lo abbia progettato grande. Ma perché la curiosità è contagiosa quando le dai una stanza.”
+
+"Ma che sta succedendo?!", urli iniziando a sentire la terra muoversi sotto i piedi. "Un terremoto?!" decidi di sbrigarti a leggere, pensi che rimanga poco tempo... ma poco tempo per cosa?!?
+
+Il teschio sorride ancora, imperturbabile. E la pagina affonda il colpo finale con una frase sola, netta, come un prompt travestito da giudizio:
+
+“Se capisci perché questo simbolo fa ridere, allora hai già capito dove sei entrato.”
+
+Un lampo di luce esplode dal portale. Luce accecante.
+
+"Se capisci perché questo simbolo fa ridere, allora hai già capito dove sei entrato.", ripeti cercando di trovare un senso.
+
+Poi, tutto d'un tratto apri gli occhi e...
+
+"Ehi amico, non ci senti? Non stare lì in mezzo, se vuoi stare nella fila addossati a quel muro e lancia quella di palla colorata, sei al defcon cazzo, sveglia!"
+
+
+:: STANZA.COORDINATE {"position":"150,200","size":"100,100"}
+STANZA.COORDINATE
+
+Confronti i numeri del foglio con la stanza: angoli, distanze, oggetti. Ti muovi piano, misurando con lo sguardo prima che con le mani. appoggi il foglio sul bordo del tavolo ed una piccola folata di vento imprevista lo fa volare sul retro del tavolo.
+
+Ci passi le dita, è stretto, pieno di polvere e cerchi di evitare i cavi.
+
+Poi ti accorgi di un dettaglio, una vite è allentata di un quarto di giro.
+
+Quando la tocchi, il metallo è più caldo del resto. Qualcuno ci è stato vicino di recente. Oppure quel punto è vicino a qualcosa che lavora? Nah... il computer è piuttosto distante da li.
+
+Chi c'è stato li poco prima di te?
+Era veramente calda la vite, o è stata solo una impressione?
+Ti senti osservato, confuso.
+
+[[Scelta 1: Svitarla e vedere cosa c'è lì dietro|STANZA.VITE]]
+[[Scelta 2: Lasciare tutto com'è e andare al terminale|TERMINAL.0]]
+
+
+:: STANZA.DEFCON-BADGE {"position":"275,325","size":"100,100"}
+STANZA.DEFCON-BADGE
+
+Ti chini verso il “tic” come se stessi inseguendo un insetto elettronico. Il neon vibra sopra di te, e sotto il tavolo la luce si fa obliqua, tagliata dai cavi e dalle gambe della sedia. L’aria qui sotto ha l’odore dei componenti: plastica, polvere, una punta di metallo scaldato.
+
+Il suono viene da una cosa appesa ma tanto è il buio che neanche si vede.
+
+Una placca nera, grande quanto un palmo, ritagliata con una sagoma che non è né quadrata né rotonda: un rombo largo, con spigoli netti e una specie di “occhio” geometrico in alto, come un mirino. Due attacchi metallici la tengono a un laccetto verde brillante. Il rumore veniva proprio da li, si alzava leggermente e sbatteva con un pezzo metallico all'armadietto di fianco al quale si stava nascondendo.
+
+La superficie non è plastica: è circuito stampato, nero, con piste appena percepibili che corrono come vene sottili. Attorno al bordo, una corona di piccole finestre quadrate: LED incastonati come denti. Alcuni spenti, altri che sembrano pronti a esplodere di luce appena qualcuno li sveglia.
+
+Al centro, la cosa più strana: un display rotondo, nero, lucido, incassato come la pupilla di un animale. Sotto il vetro intravedi una schermata pronta a comparire ma, non accade.
+
+"Sarà scarico?" pensi.
+
+Più a destra una levetta ma non fai in tempo di accorgertene che senti un baccano d'un tratto venire da una porta che fino ad allora non avevi mai visto.
+
+E' gente che urla, non riconosci le voci, ma fanno così tanto baccano che sembra siano state lì fin da prima ma giureresti di averle sentite solo ora.
+
+[[Scelta 1: Tiri giù la levetta|DEFCON-BADGE.RUN]]
+[[Scelta 2: Riappendi il badge e ti avvicini alla porta cercando di ascoltare cos'hanno da dire queste persone|HOMEBREW]]
+
+
+:: STANZA.FOGLIO {"position":"400,150","size":"100,100"}
+Il foglio è più pesante di quanto sembri, e ruvido al tatto: carta spessa, stampata male, come se la stampante avesse sofferto prima di sputarlo fuori. 
 
 Muovi il foglio verso la luce del monitor: l’inchiostro sbavato crea aloni, e gli aloni sembrano quasi—solo quasi—intenzionali.
 
-[[Scelta 1: Cercare scritte nascoste sul retro del foglio|STANZA.FOGLIO]]
+Mi accorgo che è strappato, ma non sembrano mancare pezzi, è semplicemente malconcio.
+
+Una serie di righe, suddivise come se fosse una poesia, lo riempiono, ma si, è una poesia.
+
+"""
+Mi piace pensare (e prima è, meglio è!) di un prato cibernetico dove mammiferi e computer convivere reciprocamente armonia di programmazione come l'acqua pura toccare il cielo limpido.
+
+Mi piace pensare (proprio adesso, per favore!) di una foresta cibernetica pieno di pini ed elettronica dove i cervi passeggiano pacificamente computer del passato come se fossero fiori con fiori rotanti.
+
+Mi piace pensare (deve essere!) di un’ecologia cibernetica dove siamo liberi dalle nostre fatiche e mi sono unito alla natura, restituito al nostro mammifero fratelli e sorelle, e tutti vegliavano da macchine di grazia amorevole.
+
+- Richard Brautigan 1967
+"""
+
+[[Scelta 1: Cercare scritte nascoste sul retro del foglio|STANZA.FOGLIO.RETRO]]
 
 [[Scelta 2: Tenere il foglio e tornare al terminale|TERMINAL.0]]
 
 
-:: STANZA.DEFCON-BADGE {"position":"275,300","size":"100,100"}
+:: STANZA.FOGLIO.RETRO {"position":"275,200","size":"100,100"}
+STANZA.FOGLIO.RETRO
+
+Giri il foglio.
+
+In controluce emergono numeri scritti a matita, leggeri.
+
+Sembrano coordinate, ma non tornano con la logica: sono troppo specifiche per essere caso, troppo storte per essere una stampa.
+
+[[Scelta 1: Cercare corrispondenze dei numeri alla stanza|STANZA.COORDINATE]]
 
 
-
-:: STANZA.FOGLIO {"position":"275,525","size":"100,100"}
-
-
-
-:: STANZA.GAME-OF-LIFE.GLIDER {"position":"900,400","size":"100,100"}
-STANZA.GAME-OF-LIFE.GLIDER
-
-Premi.
-
-Per un istante non succede niente, poi la griglia prende vita con una freddezza elegante: quadratini neri che appaiono, spariscono, riappaiono altrove. Non c’è grafica “carina”. C’è solo ritmo.
-
-All’inizio sembra caos. Un fruscio visivo. Un temporale di nascita e morte.
-
-Poi noti una cosa inquietante: non è casuale. Ogni volta che un punto si spegne, lo fa “con criterio”, come se avesse pagato il prezzo di essere rimasto solo. Ogni volta che un punto resta acceso, è perché è nel posto giusto: né isolato, né soffocato. Ogni volta che un punto si accende dal nulla, lo fa come risposta. Non è magia. È contabilità.
-
-Il programma non ti spiega nulla. Ti lascia guardare, come se la spiegazione fosse un premio per chi sa restare fermo abbastanza a lungo.
-
-E tu resti.
-
-Una figura si ripete. Due linee che tremano, si spezzano, si ricompongono. Un battito: accende, spegne, accende. Una piccola “sirena” fatta di quadrati, che si ostina a tornare identica. Altre macchie invece collassano, si consumano in silenzio, come se la griglia le avesse giudicate troppo costose da mantenere.
-
-Passano generazioni. Non le conti. Le senti.
-
-A un certo punto la tua attenzione smette di inseguire i singoli quadratini. Inizi a vedere qualcosa di più grande: comportamenti. Abitudini. Stili.
-
-Alcune forme sono arroganti: nascono grandi e muoiono subito, come se avessero voluto occupare tutto. Altre sono timide: nascono in tre, provano a restare, poi svaniscono perché nessuno le “tiene”. Altre ancora sono strane, quasi educate: si muovono solo quel tanto che basta, e per questo sopravvivono.
-
-E poi accade una cosa che non ti aspettavi: in mezzo al rumore, una piccola costellazione smette di oscillare e comincia a… ripresentarsi.
-
-Non nello stesso posto.
-
-Come se la griglia avesse trovato un modo per trasportare un’idea.
-
-Vedi quattro, cinque quadratini che sembrano inseguirsi. Si spengono e si riaccendono a turno, eppure la “macchia” complessiva mantiene un’identità. È come guardare un animale senza ossa: non corre, non striscia, non salta… ma dopo pochi battiti è spostato di una casella.
-
-Di nuovo.
-
-E ancora.
-
-Ogni ciclo è un piccolo sacrificio: un quadratino muore, un altro nasce, due resistono. Nessuno è “il leader”, eppure la forma continua. È una migrazione fatta di sostituzioni, come se il movimento fosse il risultato di regole locali che non hanno alcuna idea del risultato finale.
-
-La cosa più disturbante è la sensazione di riconoscimento: quella figura non è bella, non è simmetrica, non sembra progettata. Però è… inevitabile. Come se, date abbastanza generazioni, alcune strutture finissero sempre per emergere, non perché qualcuno le vuole, ma perché sono compatibili con il mondo in cui esistono.
-
-La forma prosegue con ostinazione diagonale. Non lascia scie. Non fa rumore. Semplicemente continua.
-
-Ti rendi conto che stai trattenendo il fiato da un po’.
-
-Tuono.
-Tremore.
-Brivido.
-Sospiro e…
-
-Il cursore lampeggia in basso, come se chiedesse: “Hai visto abbastanza?”
-
-
-:: STANZA.N.TICCHETTIO {"position":"400,300","size":"100,100"}
-STANZA.0
+:: STANZA.TICCHETTIO {"position":"400,300","size":"100,100"}
+STANZA.TICCHETTIO
 
 Ti fermi. E all’improvviso la stanza diventa rumorosa. Il rumore in realtà già c’era: eri tu che lo coprivi con la tastiera.
 
@@ -347,23 +508,19 @@ Il neon vibra appena. Il monitor ti illumina le mani. Sullo schermo, il cursore 
 
 Da qualche parte, un dispositivo elettronico fa “tic” a intervalli regolari. Non è un beep digitale, è più un suono metallico, quasi meccanico. Un cuore artificiale, ma di cattivo gusto.
 
-[[Scelta 1: Digita qualcosa cercando di azzeccare un comando valido|TERMINAL.1]]
-[[Avvicinati al ticchettio metallico|STANZA.DEFCON-BADGE]]
+[[Scelta 1: Torna al computer cercando di azzeccare un comando valido|TERMINAL.1]]
+[[Scelta 2: Avvicinati al ticchettio metallico|STANZA.DEFCON-BADGE]]
 
 
-:: STANZA.VITE-CHE-CEDE {"position":"1025,525","size":"100,100"}
+:: STANZA.VITE {"position":"150,325","size":"100,100"}
 La vite cede con un piccolo “tac” soddisfacente. Sotto il tavolo c’è una scatola sottile fissata con fascette. La plastica ha il segno del tempo e delle dita: opaca dove qualcuno l’ha aperta e richiusa troppe volte.
 
-Dentro: un cavo corto e un adattatore con scritto “P1”. Non è un accessorio. È una chiave fisica. E la cosa inquietante è che qualcuno l’ha lasciata qui sapendo che l’avresti trovata… se avessi guardato.
-
-Il sistema, evidentemente, premia la curiosità che passa per la precisione.
-
+Dentro: un cavo corto e un adattatore con scritto “GOL”.
 
 Lo rigiri tra le dita. Il connettore è “giusto” in quel modo che riconosci senza sapere perché: come una serratura che ti sta già aspettando..
 
-[[Scelta 1: Inserisci la chiave e ti lasci andare|ADATTATORE-INSERITO]]
-
-[[Scelta 2: Non ti fidi ... TODO |TODO]]
+[[Scelta 1: Inserisci il cavo e... |ADATTATORE-INSERITO]]
+[[Scelta 2: Lasciare tutto com'è e andare al terminale|TERMINAL.0]]
 
 
 :: Start {"position":"25,25","size":"100,100"}
@@ -398,7 +555,7 @@ Premi Invio. Compare una sola cosa:
 È troppo poco per essere un’interfaccia, troppo preciso per essere un errore. Non è un prompt normale. È un dito puntato. È il sistema che dice: “Mostrami come pensi.”
 
 [[Scelta 1: Continuare a digitare cercando di azzeccare un comando valido|TERMINAL.1]]
-[[Scelta 2: Fermarti e osservare la stanza prima di procedere|STANZA.0]]
+[[Scelta 2: Fermarti e osservare la stanza prima di procedere|STANZA.FOGLIO]]
 
 
 :: TERMINAL.1 {"position":"525,150","size":"100,100"}
@@ -451,7 +608,3 @@ Come se l’unica forma di fiducia concessa qui dentro fosse: “prova, e guarda
 
 [[Digitare frogger|FROGGER]]
 [[Digitare nautilus|NAUTILUS]]
-
-
-:: TODO {"position":"900,650","size":"100,100"}
-
