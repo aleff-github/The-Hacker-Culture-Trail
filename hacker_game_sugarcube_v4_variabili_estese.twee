@@ -1,0 +1,844 @@
+:: Start
+<<goto "0">>
+
+:: StoryInit
+<<set $curiosita = 0>>
+<<set $padronanza = 0>>
+<<set $responsabilita = 0>>
+<<set $condivisione = 0>>
+<<set $autonomia = 0>>
+<<set $tracce = 0>>
+<<set $fiducia = 0>>
+<<set $debito = 0>>
+
+
+:: StoryCaption
+<!-- HUD debug: rimuovi se non vuoi vedere le metriche sempre. -->
+C:$curiosita P:$padronanza R:$responsabilita S:$condivisione A:$autonomia | T:$tracce F:$fiducia D:$debito
+
+:: 0
+La stanza è quasi buia. C'è una finestra, fuori piove ed è notte fonda. Un neon stanco vibra sopra di te emanando un rumore simile a quello di una mosca. A ogni tremolio, le ombre cambiano mezzo millimetro. Il terminale sul tavolo è l’unica luce pulita: un rettangolo freddo che ti taglia le dita quando ti avvicini.
+
+Sul pavimento c’è un foglio stropicciato. Ha preso umidità nell’angolo e la carta si è raggrinzita. In un angolo, un quaderno nero chiuso: copertina opaca, nessun titolo. Non sembra dimenticato. Sembra posizionato.
+
+Il cursore lampeggia sullo schermo con una regolarità che non è solo “tempo”: è un invito, oppure una sfida.
+
+[[Scelta 1: Prendere il foglio e guardare meglio la stanza|0.A]]
+
+[[Scelta 2: Continuare a digitare al terminale|0.B]]
+
+:: 0.A
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Il foglio è più pesante di quanto sembri, e ruvido ai polpastrelli: carta spessa, stampata male, come se la stampante avesse sofferto prima di sputarlo fuori. C’è un diagramma che assomiglia a un pannello di porte numerate. Non è una mappa “per orientarsi”. È una mappa “per scegliere”.
+
+Qualcuno ha cerchiato “P1” e scritto a penna: “disciplina prima, rumore dopo”. La frase è pratica, ma sotto c’è una tensione: come se “rumore” fosse una colpa che però tutti, prima o poi, commettono.
+
+Muovi il foglio verso la luce del monitor: l’inchiostro sbavato crea aloni, e gli aloni sembrano quasi—solo quasi—intenzionali.
+
+[[Scelta 1: Cercare scritte nascoste sul retro del foglio|0.A.A]]
+
+[[Scelta 2: Tenere il foglio e tornare al terminale|0.A.B]]
+
+:: 0.B
+<!-- Effetti tipici: P+1 oppure T+1 a seconda della scelta successiva -->
+
+Le dita tornano sulla tastiera con un automatismo antico: input → output, domanda → risposta. Il terminale però non ti fa il favore di fingere gentilezza. Nessun titolo, nessun banner, nessuna “welcome”. Solo una riga vuota.
+
+Premi Invio. Compare una sola cosa:
+
+">"
+
+È troppo poco per essere un’interfaccia, troppo preciso per essere un errore. Non è un prompt normale. È un dito puntato. È il sistema che dice: “Mostrami come pensi.”
+
+[[Scelta 1: Continuare a digitare cercando un comportamento prevedibile|0.B.A]]
+
+[[Scelta 2: Fermarti e osservare la stanza prima di procedere|0.B.B]]
+
+:: 0.A.A
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Giri il foglio. In controluce emergono numeri scritti a matita, leggeri come un segreto detto a metà. Sembrano coordinate, ma non tornano con la logica “comoda”: sono troppo specifiche per essere caso, troppo storte per essere una stampa.
+
+Tra i numeri, una parola: “BACKPLANE”. Non è scritta per farti capire. È scritta per farti ricordare. Sotto, una frase incompleta: “BELLEZZA = ...” e poi il nulla, come se la mano si fosse fermata prima di scegliere un’idea definitiva.
+
+Ti accorgi che stai facendo una cosa rischiosa: stai iniziando a fidarti di un indizio.
+
+[[Scelta 1: Confrontare le coordinate con la stanza (cercare corrispondenze fisiche)|0.A.A.A]]
+
+[[Scelta 2: Aprire il quaderno nero per cercare la stessa parola|0.A.A.B]]
+
+:: 0.A.B
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Posi il foglio accanto al terminale. È come appoggiare una mappa sul bordo di un pozzo: non ti salva, ma ti obbliga a guardare dove metti i piedi. Il cursore lampeggia. Sembra più consapevole adesso, o forse sei tu che hai smesso di trattarlo come un oggetto.
+
+Il foglio, lì vicino, cambia di significato: non è più “carta”. È una promessa. E le promesse, nei sistemi, spesso hanno costo.
+
+[[Scelta 1: Digitare qualcosa ispirandoti al foglio ("BACKPLANE" o "P1")|0.A.B.A]]
+
+[[Scelta 2: Ignorare la mappa e digitare un comando "classico" (help, ls, whoami)|0.A.B.B]]
+
+:: 0.B.A
+<!-- Effetti tipici: P+1, T+1 -->
+
+<<set $padronanza += 1>>
+<<set $tracce += 1>>
+
+Decidi di trattare il sistema come una macchina prevedibile: input → output. Provi comandi semplici, quelli che usi quando vuoi “testare il terreno” senza far rumore… ma il terreno qui sembra già sapere chi sei.
+
+Le risposte sono coerenti, pulite, quasi educate. E proprio per questo inquietanti: ti danno abbastanza per farti continuare, mai abbastanza per farti capire. È come se ti stesse valutando, non servendo.
+
+Ogni Invio è un passo. Ogni passo lascia una pressione sul pavimento.
+
+[[Scelta 1: Insistere aumentando l\'aggressività (più tentativi, più velocità)|0.B.A.A]]
+
+[[Scelta 2: Cambiare strategia e rallentare, cercando pattern nel tempo di risposta|0.B.A.B]]
+
+:: 0.B.B
+<!-- Effetti tipici: C+1, R+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+
+Ti fermi. E all’improvviso la stanza diventa rumorosa, perché il rumore c’era già: eri tu che lo coprivi con la tastiera. Il neon vibra appena. Da qualche parte, un relè fa “tic” a intervalli regolari, come un cuore artificiale.
+
+Noti che il quaderno nero non è perfettamente allineato: sotto c’è un angolo piegato, come un segnalibro fatto in fretta. E il foglio sul pavimento… non è lì per caso: la sua piega principale punta in una direzione precisa, verso la parte bassa del tavolo.
+
+Osservare qui non è passività. È un attacco lento.
+
+[[Scelta 1: Prendere e aprire il quaderno nero|0.B.B.A]]
+
+[[Scelta 2: Esplorare la stanza senza toccare il quaderno|0.B.B.B]]
+
+:: 0.A.A.A
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Confronti i numeri del foglio con la stanza: angoli, distanze, oggetti. Ti muovi piano, misurando con lo sguardo prima che con le mani. Una coordinata “cade” esattamente sul retro del tavolo. Ci passi le dita: una vite è allentata di un quarto di giro, il tipo di errore che nessuno fa per distrazione.
+
+Quando la tocchi, il metallo è più caldo del resto. Qualcuno ci è stato vicino di recente. Oppure quel punto è vicino a qualcosa che lavora, nascosto.
+
+La stanza, per la prima volta, sembra avere un secondo livello.
+
+[[Scelta 1: Svitarla e vedere cosa c\'è sotto il tavolo|0.A.A.A.A]]
+
+[[Scelta 2: Lasciare tutto com\'è e andare al terminale con l\'indizio in testa|0.A.A.A.B]]
+
+:: 0.A.A.B
+<!-- Effetti tipici: C+1, R+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+
+Il quaderno nero si apre con un fruscio secco. Le pagine sono fitte di appunti, diagrammi, frasi spezzate. Non c’è la cura estetica del “taccuino bello”. C’è la cura nervosa di chi vuole arrivare vivo alla fine di un’idea.
+
+Ritrovi “BACKPLANE” in alto, scritto come un titolo che non si può più discutere. Sotto non c’è spiegazione. Solo una regola:
+
+“Prima: disciplina. Poi: connessione.”
+
+Tra due schemi, in margine, un frammento: “L’hacker pratica…” e poi una riga tirata con forza, come a trattenere il resto.
+
+[[Scelta 1: Continuare a sfogliare cercando connessioni tra parole e disegni|0.A.A.B.A]]
+
+[[Scelta 2: Chiudere il quaderno e passare al terminale con quella regola in mente|0.A.A.B.B]]
+
+:: 0.A.B.A
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Scrivi “BACKPLANE”. Per un attimo lo schermo resta vuoto, come se stesse decidendo se meritarti una risposta. Poi compare una riga:
+
+"SELECT PORT: P1 | P2"
+
+Non è una scelta astratta. È un bivio fisico travestito da testo. Il sistema, fino a un secondo fa, era una scatola che chiedeva comandi. Ora è un corridoio con due porte, e ti chiede quale identità vuoi indossare entrando.
+
+La stanza sembra trattenere il fiato insieme a te.
+
+[[Scelta 1: Selezionare P1 (Toolbench: disciplina)|0.A.B.A.A]]
+
+[[Scelta 2: Selezionare P2 (BBS: comunità)|0.A.B.A.B]]
+
+:: 0.A.B.B
+<!-- Effetti tipici: R+1 oppure C+1 -->
+
+Digiti “help”. Il terminale potrebbe stamparti una lista. Invece decide di essere un insegnante cattivo e preciso. Stampa una sola frase:
+
+"Help is a habit."
+
+Poi torna al prompt “>”. Ti sta prendendo in giro, ma non per sadismo: per vedere se ti aggrappi al rituale o se impari a leggere la stanza. La provocazione ti brucia un po’ perché funziona.
+
+L’ironia, qui, è un test di disciplina.
+
+[[Scelta 1: Accettare la provocazione e osservare i tempi di risposta (pattern)|0.A.B.B.A]]
+
+[[Scelta 2: Forzare comunque una lista di comandi provando sequenze comuni|0.A.B.B.B]]
+
+:: 0.B.A.A
+<!-- Effetti tipici: P+1, T+2, R-1 -->
+
+<<set $padronanza += 1>>
+<<set $tracce += 2>>
+<<set $responsabilita -= 1>>
+
+Aumenti la pressione: più comandi, più varianti. Il terminale inizia a rispondere più lentamente, come una bestia che si gira per capire da dove arrivano i colpi. Compare una nuova riga, per la prima volta non neutra:
+
+"NOISE."
+
+Non è un errore. È un giudizio. Ti sta dicendo che ti vede, e che ti classifica. Per un istante, il cursore non sembra più un metronomo: sembra un contatore.
+
+La tentazione è semplice: ignorare la morale e andare avanti lo stesso.
+
+[[Scelta 1: Ignorare l\'avvertimento e continuare (rischio alto)|0.B.A.A.A]]
+
+[[Scelta 2: Fermarti e provare a "ripulire" (ridurre tentativi, annotare)|0.B.A.A.B]]
+
+:: 0.B.A.B
+<!-- Effetti tipici: C+1, R+1, P+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+<<set $padronanza += 1>>
+
+Rallenti. Ripeti lo stesso input con pause diverse. Il sistema risponde con micro-variazioni: non nel testo, nel tempo. La differenza è piccola, ma coerente, e la coerenza è un profumo che riconosci subito: qualcuno ha scritto questa cosa pensando a un occhio paziente.
+
+Capisci che esiste un canale laterale: una lingua fatta di intervalli. Non per “fare scena”. Per selezionare chi sa ascoltare.
+
+Il terminale non ti sta parlando con parole. Ti sta parlando con ritmi.
+
+[[Scelta 1: Trasformare gli intervalli in un codice (annotando)|0.B.A.B.A]]
+
+[[Scelta 2: Usare gli intervalli per "indovinare" la porta giusta senza capire davvero|0.B.A.B.B]]
+
+:: 0.B.B.A
+<!-- Effetti tipici: R+1, C+1 -->
+
+<<set $responsabilita += 1>>
+<<set $curiosita += 1>>
+
+Nel quaderno, tra appunti tecnici, c’è una pagina che torna più volte, quasi un mantra riscritto per non dimenticarlo:
+“Se non puoi ripetere, non hai capito.”
+“Se non puoi spiegare, non lo possiedi.”
+“Se non puoi riparare, stai solo usando.”
+
+Sotto, qualcuno ha disegnato un pannello con porte numerate. Il segnalibro piegato punta lì, ostinato. In un angolo, un’altra frase a metà: “…l’esplorazione…” e poi un tratto di grafite sfumata, come se qualcuno avesse cancellato con il palmo.
+
+Il quaderno non ti dà risposte. Ti dà un’etica.
+
+[[Scelta 1: Continuare a sfogliare finché trovi "P1" o "P2" esplicitamente|0.B.B.A.A]]
+
+[[Scelta 2: Chiudere il quaderno e andare subito al terminale|0.B.B.A.B]]
+
+:: 0.B.B.B
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Ti muovi nella stanza. Ogni passo fa scricchiolare qualcosa di invisibile: polvere, cavi, forse solo la tua coscienza che si sposta. Dietro una mensola trovi un piccolo sportello metallico: è un patch panel nascosto. L’anta ha graffi sottili, quelli lasciati da un’unghia o da un cacciavite usato male.
+
+C’è scritto “BACKPLANE” con lo stesso pennarello del foglio. Due porte hanno etichette chiare: P1 e P2. Non è più una metafora. È hardware.
+
+Ecco perché il terminale sembrava “vuoto”: la vera interfaccia è qui.
+
+[[Scelta 1: Collegare P1 (disciplina / strumenti)|0.B.B.B.A]]
+
+[[Scelta 2: Collegare P2 (comunità / BBS)|0.B.B.B.B]]
+
+:: 0.A.A.A.A
+<!-- Effetti tipici: P+1, A+1 -->
+
+<<set $padronanza += 1>>
+<<set $autonomia += 1>>
+
+La vite cede con un piccolo “tac” soddisfacente. Sotto il tavolo c’è una scatola sottile fissata con fascette. La plastica ha il segno del tempo e delle dita: opaca dove qualcuno l’ha aperta e richiusa troppe volte.
+
+Dentro: un cavo corto e un adattatore con scritto “P1”. Non è un accessorio. È una chiave fisica. E la cosa inquietante è che qualcuno l’ha lasciata qui sapendo che l’avresti trovata… se avessi guardato.
+
+Il sistema, evidentemente, premia la curiosità che passa per la precisione.
+
+[[Scelta 1: Usare subito la chiave su P1 (Toolbench)|0.A.A.A.A.A]]
+
+[[Scelta 2: Tenere la chiave e usare prima P2 (BBS) per capire il contesto|0.A.A.A.A.B]]
+
+:: 0.A.A.A.B
+Vai al terminale con l’indizio in testa. Digiti “BACKPLANE”. Appare:
+
+"SELECT PORT: P1 | P2"
+
+Niente più. Nessuna spiegazione. Solo decisione. La cosa strana è che ti sembra “giusto”: come se le istruzioni fossero sempre state nella stanza, non nello schermo.
+
+Per un attimo capisci la regola implicita: qui chi legge meglio, rischia meno.
+
+[[Scelta 1: Selezionare P1 (Toolbench)|0.A.A.A.B.A]]
+
+[[Scelta 2: Selezionare P2 (BBS)|0.A.A.A.B.B]]
+
+:: 0.A.A.B.A
+<!-- Effetti tipici: C+2, R+1 -->
+
+<<set $curiosita += 2>>
+<<set $responsabilita += 1>>
+
+Sfogli ancora, cercando connessioni. Trovi frammenti di una frase più lunga, ma ogni volta che pensi di averla, manca qualcosa. Non è solo perché mancano pagine: è come se il quaderno fosse costruito per non “premiarti” con una rivelazione rapida.
+
+Un foglio ha scritto: “L’hacker pratica…” Un altro, più avanti: “…l’esplorazione…” e poi uno scarabocchio che potrebbe essere “del—” ma si interrompe. Sui bordi, note pratiche: “non correre”, “non farti notare”, “non confondere accesso con diritto”.
+
+Il quaderno ti premia con struttura, non con completamento.
+
+[[Scelta 1: Annotare i frammenti e smettere di sfogliare (disciplina)|0.A.A.B.A.A]]
+
+[[Scelta 2: Insistere fino a "consumare" la curiosità (nessuna nuova informazione, ma impulso)|0.A.A.B.A.B]]
+
+:: 0.A.A.B.B
+Chiudi il quaderno. La copertina fa un suono sordo, come una porta che si richiude da sola. Vai al terminale. Digiti “BACKPLANE”.
+Appare: "SELECT PORT: P1 | P2".
+
+La coerenza del sistema è quasi offensiva: non ti aiuta, ma non ti inganna. Ti lascia soltanto scegliere quale tipo di persona vuoi essere nel prossimo minuto: quello che cerca strumenti, o quello che cerca persone.
+
+[[Scelta 1: Selezionare P1 (Toolbench)|0.A.A.B.B.A]]
+
+[[Scelta 2: Selezionare P2 (BBS)|0.A.A.B.B.B]]
+
+:: 0.A.B.A.A
+<!-- (P1 - TOOLBENCH) -->
+
+Lo schermo cambia: non una shell, un banco. L’interfaccia ha la sobrietà di un laboratorio. Due strumenti disponibili: LOG e NOTE.
+Sotto, una frase che non è un tutorial. È una pretesa:
+
+"Choose your discipline."
+
+Il sistema non ti dice “cosa fare”. Ti chiede con che metodo farai qualsiasi cosa. E la cosa inquietante è che ha ragione: qui dentro, il modo in cui lavori è già metà del risultato.
+
+[[Scelta 1: Accendere LOG (osservare e misurare)|0.A.B.A.A.A]]
+
+[[Scelta 2: Accendere NOTE (scrivere e chiarire)|0.A.B.A.A.B]]
+
+:: 0.A.B.A.B
+<!-- (P2 - BBS) -->
+
+Lo schermo diventa un menu testuale. Un campo vuoto:
+"HANDLE: ____"
+
+Sotto: "No gods. No admins. No excuses." (qualcuno l’ha scritto lì, non il sistema). È una cicatrice comunitaria: un avviso nato da qualcosa che è già andato storto.
+
+Capisci subito la differenza: P1 ti giudica per il metodo. P2 ti giudicherà per la storia che racconti di te.
+
+[[Scelta 1: Inserire un handle e entrare "in chiaro"|0.A.B.A.B.A]]
+
+[[Scelta 2: Tentare di entrare senza handle, come osservatore invisibile|0.A.B.A.B.B]]
+
+:: 0.A.B.B.A
+<!-- Effetti tipici: C+1, R+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+
+Osservi i tempi. Scrivi poco, aspetti molto. Il sistema sembra “respirare” a intervalli: come un servizio che si accende e spegne dietro un pannello che non puoi vedere.
+Ti accorgi che i ritardi non sono casuali. Sono finestre. Piccoli momenti in cui qualcosa è pronto ad ascoltare.
+
+È una sensazione strana: per la prima volta non stai “inviando comandi”. Stai sincronizzandoti con un organismo.
+
+[[Scelta 1: Annotare gli intervalli e usarli per richiamare BACKPLANE al momento giusto|0.A.B.B.A.A]]
+
+[[Scelta 2: Ignorare gli intervalli e provare comunque BACKPLANE subito|0.A.B.B.A.B]]
+
+:: 0.A.B.B.B
+<!-- Effetti tipici: P+1, T+2 -->
+
+<<set $padronanza += 1>>
+<<set $tracce += 2>>
+
+Forzi sequenze di comandi. Il sistema non ti blocca, ma ti “marca”. Compare una riga breve, gelida:
+
+"TRACE++"
+
+È brutale perché è semplice. Non ti spiega, non ti minaccia in poesia. Ti informa. E l’informazione è già una condanna: da qualche parte, qualcuno—o qualcosa—sta contando.
+
+Il problema del rumore non è morale. È logistico: il rumore richiama occhi.
+
+[[Scelta 1: Continuare (ottenere accesso rapido ma rumoroso)|0.A.B.B.B.A]]
+
+[[Scelta 2: Fermarti e cercare il foglio/quaderno per un accesso pulito|0.A.B.B.B.B]]
+
+:: 0.B.A.A.A
+<!-- Effetti tipici: T+3, R-2 -->
+
+<<set $tracce += 3>>
+<<set $responsabilita -= 2>>
+
+Ignori “NOISE.” e continui. Lo schermo lampeggia e appare un messaggio che non è più un invito:
+
+"EMERGENCY EXIT READY."
+
+Il neon sopra di te sembra tremare allo stesso ritmo, come se la stanza si fosse collegata al tuo errore. Qualcosa, da qualche parte, ha iniziato a guardare. Non “un admin” per forza: magari solo un demone, un log, un watchdog. Ma guardare è già abbastanza.
+
+A questo punto non stai più giocando con un sistema. Stai negoziando con la tua traccia.
+
+[[Scelta 1: Premere avanti (tentare il colpo grosso)|0.B.A.A.A.A]]
+
+[[Scelta 2: Tagliare tutto e tornare al silenzio (ridurre danni)|0.B.A.A.A.B]]
+
+:: 0.B.A.A.B
+<!-- Effetti tipici: R+2, T-1 -->
+
+<<set $responsabilita += 2>>
+<<set $tracce -= 1>>
+
+Ti fermi. Respiri. Ripeti un input semplice e lo annoti, come se stessi facendo scienza invece che combattimento. Il sistema smette di rallentare. “NOISE.” sparisce.
+
+Hai appena fatto una cosa rara: hai scelto responsabilità sotto tentazione. Non ti dà punti stile. Ti dà qualcosa di più utile: tempo.
+
+E il tempo, qui, è la valuta più costosa.
+
+[[Scelta 1: Cercare BACKPLANE con metodo (disciplina)|0.B.A.A.B.A]]
+
+[[Scelta 2: Aprire il quaderno per confermare l\'approccio (connessione con indizi)|0.B.A.A.B.B]]
+
+:: 0.B.A.B.A
+<!-- Effetti tipici: C+2, R+1, P+1 -->
+
+<<set $curiosita += 2>>
+<<set $responsabilita += 1>>
+<<set $padronanza += 1>>
+
+Trasformi gli intervalli in simboli. È lento, ma improvvisamente hai un codice. La decodifica non è spettacolare, è umiliante nella sua semplicità:
+
+"P1"
+
+Non è magia. È pazienza applicata. E ti fa venire un pensiero fastidioso: se qualcuno ha messo qui un canale laterale, allora qualcuno si aspetta che tu lo trovi. Non sei il primo.
+
+La stanza, in silenzio, ti osserva imparare.
+
+[[Scelta 1: Andare su P1 (Toolbench)|0.B.A.B.A.A]]
+
+[[Scelta 2: Andare su P2 (BBS) comunque, per capire il "perché" umano|0.B.A.B.A.B]]
+
+:: 0.B.A.B.B
+<!-- Effetti tipici: P+1, T+2, C-1 -->
+
+<<set $padronanza += 1>>
+<<set $tracce += 2>>
+<<set $curiosita -= 1>>
+
+Usi gli intervalli per indovinare: ti interessa entrare, non capire. Funziona… ma lasci graffi: micro-errori, tempi sbagliati, ripetizioni. Il sistema non ti butta fuori. Ma senti che ha preso nota.
+
+È la differenza tra aprire una serratura e scardinarla: il risultato è lo stesso solo finché nessuno guarda la porta dopo.
+
+[[Scelta 1: Forzare P2 (BBS) per cercare scorciatoie sociali|0.B.A.B.B.A]]
+
+[[Scelta 2: Ripiegare su P1 (Toolbench) per "pulirti" dopo il rumore|0.B.A.B.B.B]]
+
+:: 0.B.B.A.A
+<!-- Effetti tipici: R+1 -->
+
+<<set $responsabilita += 1>>
+
+Nel quaderno trovi finalmente la chiave semantica, scritta come se fosse ovvia e invece ti fa tirare un sospiro:
+"P1 = disciplina"
+"P2 = comunità"
+
+Sotto, una nota: "Non entrare dove non puoi restare." La frase è corta, ma sembra nata da una perdita: qualcuno è entrato, qualcuno non è rimasto, qualcuno ha pagato.
+
+Adesso la scelta non è più “curiosità”. È responsabilità.
+
+[[Scelta 1: Scegliere P1 (Toolbench)|0.B.B.A.A.A]]
+
+[[Scelta 2: Scegliere P2 (BBS)|0.B.B.A.A.B]]
+
+:: 0.B.B.A.B
+Vai al terminale e richiami BACKPLANE. Il testo appare come una serranda che si alza senza rumore:
+
+"SELECT PORT: P1 | P2".
+
+Il sistema non ti chiede password, non ti chiede nome. Ti chiede scelta. E quella è la cosa più difficile da falsificare: la scelta racconta chi sei anche quando menti.
+
+[[Scelta 1: Selezionare P1 (Toolbench)|0.B.B.A.B.A]]
+
+[[Scelta 2: Selezionare P2 (BBS)|0.B.B.A.B.B]]
+
+:: 0.B.B.B.A
+<!-- (P1 - TOOLBENCH) -->
+
+Il banco compare: LOG e NOTE disponibili.
+"Choose your discipline."
+
+Qui non c’è narrazione. C’è procedura. E la procedura, quando è buona, diventa sicurezza. Ti senti quasi sollevato: per un attimo non devi inventarti una maschera sociale. Devi solo lavorare bene.
+
+[[Scelta 1: LOG|0.B.B.B.A.A]]
+
+[[Scelta 2: NOTE|0.B.B.B.A.B]]
+
+:: 0.B.B.B.B
+<!-- (P2 - BBS) -->
+
+Prompt handle. Menu testuale. Una riga in basso, quasi ridicola:
+"Be interesting or be gone."
+
+È la brutalità tipica di chi ha già visto troppi turisti, troppi predatori, troppi geni convinti di meritare attenzione gratuita. Qui “interessante” non significa brillante. Significa vero, utile, o almeno onesto.
+
+[[Scelta 1: Entrare con handle e presentarti|0.B.B.B.B.A]]
+
+[[Scelta 2: Tentare di lurkare invisibile|0.B.B.B.B.B]]
+
+:: 0.A.A.A.A.A
+<!-- (P1 - TOOLBENCH, con chiave fisica) -->
+
+L’adattatore “P1” scatta in sede con un click secco, e la connessione diventa stabile come un patto firmato. Senti che qui dentro l’errore costa meno, ma resta registrato. È un laboratorio: ti lascia sbagliare, ma pretende che tu impari.
+
+LOG e NOTE sono disponibili. Non è un menu. È una scelta di strumenti mentali.
+
+[[Scelta 1: Attivare LOG (misurare prima di toccare)|0.A.B.A.A.A]]
+
+[[Scelta 2: Attivare NOTE (scrivere prima di toccare)|0.A.B.A.A.B]]
+
+:: 0.A.A.A.A.B
+Decidi di capire il contesto umano prima della disciplina. Vai su P2. La BBS ti chiede un handle.
+È una soglia sociale: se non esisti per gli altri, non esisti nel sistema.
+
+La cosa sottile è che non è una “barriera”. È un filtro. Qui l’anonimato non è assenza. È una forma. Devi scegliere la tua.
+
+[[Scelta 1: Scegliere un handle e entrare|0.A.B.A.B.A]]
+
+[[Scelta 2: Provare a entrare senza handle|0.A.B.A.B.B]]
+
+:: 0.A.A.A.B.A
+P1. Toolbench. Due strumenti: LOG e NOTE. Il banco è identico qualunque strada tu abbia preso, e questo ti dice qualcosa: nel sistema, la disciplina è una stanza sempre aperta. Ci entri quando vuoi. Ma la paghi sempre con tempo.
+
+[[Scelta 1: LOG|0.A.B.A.A.A]]
+
+[[Scelta 2: NOTE|0.A.B.A.A.B]]
+
+:: 0.A.A.A.B.B
+P2. BBS. Prompt handle. La comunità non ha bisogno di sapere chi sei “davvero”. Ha bisogno di sapere chi decidi di essere qui dentro, adesso. E se quella scelta regge quando nessuno ti applaude.
+
+[[Scelta 1: Entrare con handle|0.A.B.A.B.A]]
+
+[[Scelta 2: Lurkare invisibile|0.A.B.A.B.B]]
+
+:: 0.A.A.B.A.A
+<!-- Effetti tipici: C+1, R+1, F+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+<<set $fiducia += 1>>
+
+Annoti i frammenti e chiudi il quaderno. Il gesto è piccolo, ma ti cambia il ritmo: invece di “cercare ancora”, decidi di “conservare”. La curiosità diventa struttura. E la struttura, qui, è sopravvivenza.
+
+Per un momento hai la sensazione che il sistema “ti veda” meno. Non perché è magico, ma perché stai facendo meno rumore. Eppure tu vedi di più: hai un filo da seguire.
+
+[[Scelta 1: Tornare al terminale e scegliere P1 (disciplina)|0.A.A.B.B.A]]
+
+[[Scelta 2: Tornare al terminale e scegliere P2 (comunità)|0.A.A.B.B.B]]
+
+:: 0.A.A.B.A.B
+<!-- Effetti tipici: C+1, T+1 -->
+
+<<set $curiosita += 1>>
+<<set $tracce += 1>>
+
+Insisti. Le pagine diventano ripetizione: stessi schemi, stesse parole. Non trovi nulla di nuovo. Però senti una cosa: la tua curiosità è diventata impulso. È utile, ma può divorarti. È la stessa forza che fa scoprire un bug… e la stessa che ti fa “premere avanti” quando dovresti fermarti.
+
+Il quaderno non ti punisce. Ti mostra un limite. E tu decidi se rispettarlo.
+
+[[Scelta 1: Tornare al terminale e scegliere P2 (cercare risposte nelle persone)|0.A.A.B.B.B]]
+
+[[Scelta 2: Tornare al terminale e scegliere P1 (mettere disciplina all\'impulso)|0.A.A.B.B.A]]
+
+:: 0.A.A.B.B.A
+P1. Toolbench. La parola “disciplina” qui non è moralismo. È riduzione del rischio. È la differenza tra lasciare una traccia e lasciare un’impronta.
+
+[[Scelta 1: LOG|0.A.B.A.A.A]]
+
+[[Scelta 2: NOTE|0.A.B.A.A.B]]
+
+:: 0.A.A.B.B.B
+P2. BBS. La parola “comunità” qui non è comfort. È memoria condivisa: ti può proteggere, ma ti può anche ricordare per sempre il tuo peggiore minuto.
+
+[[Scelta 1: Handle e ingresso|0.A.B.A.B.A]]
+
+[[Scelta 2: Lurking invisibile|0.A.B.A.B.B]]
+
+:: 0.A.B.A.A.A
+<!-- (TOOLBENCH -> LOG)
+Effetti tipici: P+1, R+1, T+0 -->
+
+<<set $padronanza += 1>>
+<<set $responsabilita += 1>>
+<<set $tracce += 0>>
+
+LOG attivo. Il banco non ti rende più veloce: ti rende ripetibile. Ogni comando, ogni tentativo, ogni micro-fallimento finisce in una traccia che puoi leggere. È quasi liberatorio: non devi fidarti della memoria, puoi fidarti dei dati.
+
+Ma c’è un rovescio: ora anche tu vedi quanto rumore fai. E se tu lo vedi, forse lo vede anche qualcun altro.
+
+[[Scelta 1: Uscire dal banco e andare verso la comunità (BBS) con LOG attivo|0.A.B.A.B.A]]
+
+[[Scelta 2: Uscire dal banco e cercare OUTPUT/PRINTER (inizio "accessibilità vs proprietà")|0.A.B.B.A.A]]
+
+:: 0.A.B.A.A.B
+<!-- (TOOLBENCH -> NOTE)
+Effetti tipici: C+1, R+1, F+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+<<set $fiducia += 1>>
+
+NOTE attivo. Scrivere prima di toccare ti fa sembrare lento, ma ti rende credibile: sai dire cosa hai fatto, perché l’hai fatto, e cosa ti aspetti che succeda. La credibilità è una chiave sociale—e spesso è più rara di un exploit.
+
+Ti accorgi che il sistema ti sta addestrando a una cosa banale e difficile: pensare in pubblico senza fare danni.
+
+[[Scelta 1: Andare alla comunità (BBS) e presentarti bene|0.A.B.A.B.A]]
+
+[[Scelta 2: Andare a OUTPUT/PRINTER e annotare tutto prima di intervenire|0.A.B.B.A.A]]
+
+:: 0.A.B.A.B.A
+<!-- (BBS -> ingresso con handle)
+Effetti tipici: F+1 oppure T+1 a seconda di come ti presenti nei nodi successivi, qui ancora non definiti -->
+
+Scegli un handle. Lo scrivi e premi Invio. Il sistema ti accetta con un silenzio che sa di controllo: nessun applauso, nessun badge. Solo una board che ti salta addosso:
+
+"INTRODUCTIONS"
+
+È una trappola gentile: qui la gente decide se sei reale o solo rumore. Se menti qui, menti ovunque. Se sei arrogante qui, sarai ricordato anche quando non sei online.
+
+[[Scelta 1: Presentarti con umiltà e dichiarare cosa stai cercando (fiducia)|0.B.B.B.B.A]]
+
+[[Scelta 2: Presentarti vantandoti e chiedendo accesso subito (tracce)|0.B.A.A.A.A]]
+
+:: 0.A.B.A.B.B
+<!-- (BBS -> lurk invisibile)
+Effetti tipici: T+1, F-1 -->
+
+<<set $tracce += 1>>
+<<set $fiducia -= 1>>
+
+Provi a entrare senza handle. Per un istante il sistema ti lascia vedere un frammento: una lista di thread, titoli secchi, date vecchie, il respiro di una comunità che non ha bisogno di te.
+Poi compare una riga:
+
+"NO NAME, NO MEMORY."
+
+Non è poetica. È policy. E capisci perché: senza nome non sei responsabile, e senza responsabilità non esisti davvero per gli altri—sei solo consumo.
+
+[[Scelta 1: Accettare la regola e scegliere un handle (rientro pulito)|0.A.B.A.B.A]]
+
+[[Scelta 2: Insistere nel lurkare (accesso rapido, rischio ban)|0.B.A.A.A.A]]
+
+:: 0.A.B.B.A.A
+<!-- (OUTPUT/PRINTER - seme "accessibilità vs proprietà")
+Effetti tipici: D+1 se peggiori la situazione; F+1 se la sistemi -->
+
+OUTPUT è una stampante collegata a qualcosa che non vedi. La coda è viva: fogli mezzi stampati, errori ripetuti, un ronzio basso di motori che riprovano sempre la stessa cosa. Ogni pagina fallita è un’energia sprecata, un tempo rubato, una decisione rimandata.
+
+Su un bordo: "PAY / COPY / SHARE?" scritto a mano. Non è un menu, è una domanda morale compressa in tre parole.
+
+Qui non c'è "giusto". C'è "conseguenza".
+
+[[Scelta 1: Sistemare la coda (riparare, ridurre danni, lasciare meglio di prima)|0.B.A.A.B.A]]
+
+[[Scelta 2: Approfittare della coda per ottenere copie di documenti (vantaggio, rischio)|0.B.A.A.A.A]]
+
+:: 0.A.B.B.A.B
+<!-- Effetti tipici: P+1, C-1 -->
+
+<<set $padronanza += 1>>
+<<set $curiosita -= 1>>
+
+Ignori gli intervalli e provi BACKPLANE subito. Funziona, ma senti che hai “saltato” una comprensione. È come entrare in una casa dalla finestra: sei dentro, sì, ma non sai se sei ospite o intruso.
+
+La cosa peggiore non è l’errore tecnico. È la storia che racconti a te stesso per giustificarlo.
+
+[[Scelta 1: Andare a P2 (BBS) per compensare (contesto umano)|0.A.B.A.B.A]]
+
+[[Scelta 2: Andare a OUTPUT/PRINTER (cose concrete)|0.A.B.B.A.A]]
+
+:: 0.A.B.B.B.A
+<!-- Effetti tipici: T+2 -->
+
+<<set $tracce += 2>>
+
+Continui a forzare. Il sistema ti apre una porta, ma ti mette un’etichetta addosso. Non la vedi, ma la senti: come quando ti accorgi che qualcuno ti ha guardato mentre facevi una cosa stupida.
+
+Senti che la prossima soglia potrebbe chiudersi per sempre. Non perché il sistema è cattivo, ma perché i sistemi proteggono se stessi. E tu, in questo momento, sei la cosa da proteggersi.
+
+[[Scelta 1: Entrare in BBS "a spallate" (rumoroso)|0.B.A.B.B.A]]
+
+[[Scelta 2: Ripiegare su Toolbench per ripulire e rallentare|0.A.B.A.A.A]]
+
+:: 0.A.B.B.B.B
+<!-- Effetti tipici: R+1, T-1 -->
+
+<<set $responsabilita += 1>>
+<<set $tracce -= 1>>
+
+Torni al foglio/quaderno. Ti rimetti in carreggiata. Non perché hai paura: perché riconosci un pattern che hai visto mille volte nei disastri piccoli che diventano grandi. Capisci una regola di fondo: “veloce” non significa “avanti”.
+
+Il sistema non si muove. Sei tu che cambi postura. E la postura—mentale, non fisica—qui è tutto.
+
+[[Scelta 1: Selezionare P1 e scegliere LOG/NOTE con disciplina|0.A.B.A.A.A]]
+
+[[Scelta 2: Selezionare P2 e presentarti in modo pulito|0.A.B.A.B.A]]
+
+:: 0.B.A.A.A.A
+<!-- (EMERGENCY EXIT - rischio finale precoce)
+Effetti tipici: T molto alta; possibile trigger finale "beccato/ban" più avanti -->
+
+La porta d’emergenza “si prepara”. Non è un’uscita gentile. È un meccanismo di contenimento. È il sistema che decide che non sei più un giocatore: sei un problema.
+
+Lo capisci da una cosa semplice: non sta reagendo ai tuoi comandi. Sta reagendo alla tua presenza. Quando un sistema smette di ascoltarti e inizia a proteggersi, hai già perso il controllo.
+
+[[Scelta 1: Scappare (tagliare connessione, lasciare tutto)|0.B.A.A.A.B]]
+
+[[Scelta 2: Restare e tentare di cancellare le tracce (peggiora se fallisci)|0.B.A.A.A.A]]
+
+:: 0.B.A.A.A.B
+<!-- Effetti tipici: R+1, T-1 -->
+
+<<set $responsabilita += 1>>
+<<set $tracce -= 1>>
+
+Tagli tutto. Il terminale torna muto. Il neon, improvvisamente, sembra più forte, come se prima lo stessi ignorando per sopravvivere.
+Non hai vinto. Ma hai evitato di peggiorare la situazione. In certi sistemi, questa è una vittoria reale.
+
+Ti resta addosso una sensazione amara: avresti potuto essere migliore. Ma anche quella è un dato utile, se sai usarlo.
+
+[[Scelta 1: Ripartire dal Backplane con disciplina (P1)|0.B.B.B.A.A]]
+
+[[Scelta 2: Ripartire dal Backplane cercando comunità (P2)|0.B.B.B.B.A]]
+
+:: 0.B.A.A.B.A
+Cerchi BACKPLANE con metodo. Lo schermo mostra: "SELECT PORT: P1 | P2".
+È una seconda chance, e costa meno perché sei tornato “pulito”: meno tentativi, meno rumore, meno occhi.
+
+La parte inquietante è che il sistema sembra apprezzarlo. Come se la disciplina fosse una password che non si digita.
+
+[[Scelta 1: P1 (Toolbench)|0.B.B.B.A.A]]
+
+[[Scelta 2: P2 (BBS)|0.B.B.B.B.A]]
+
+:: 0.B.A.A.B.B
+<!-- Effetti tipici: R+2, C+1 -->
+
+<<set $responsabilita += 2>>
+<<set $curiosita += 1>>
+
+Riapri il quaderno. Ti rimette addosso un’etica: ripetere, spiegare, riparare. Ti accorgi che “hacker” qui non è un insulto né un mantello. È un metodo. È un modo di stare nel mondo senza lasciarlo peggiore.
+
+In un margine, un altro pezzo della frase fantasma: “…del possibile…” e poi niente. Ti basta per capire che la frase intera è un traguardo, non un premio.
+
+[[Scelta 1: Andare a P1 (disciplina)|0.B.B.B.A.A]]
+
+[[Scelta 2: Andare a P2 (comunità)|0.B.B.B.B.A]]
+
+:: 0.B.A.B.A.A
+Vai su P1 (Toolbench). Il banco è lì, asciutto e stabile. LOG e NOTE disponibili. Ti senti quasi ridicolo a pensarlo, ma provi gratitudine: una stanza dove il comportamento ha regole, e le regole hanno senso.
+
+[[Scelta 1: LOG|0.A.B.A.A.A]]
+
+[[Scelta 2: NOTE|0.A.B.A.A.B]]
+
+:: 0.B.A.B.A.B
+Vai su P2 (BBS) per capire il "perché" umano. Il sistema ti chiede un handle e non lo fa per capriccio: lo fa perché la comunità non parla con fantasmi. Chi entra “solo per vedere” spesso entra “solo per prendere”.
+
+[[Scelta 1: Entrare con handle|0.A.B.A.B.A]]
+
+[[Scelta 2: Provare a lurkare|0.A.B.A.B.B]]
+
+:: 0.B.A.B.B.A
+<!-- Effetti tipici: T+2, F-2 -->
+
+<<set $tracce += 2>>
+<<set $fiducia -= 2>>
+
+Forzi P2 cercando scorciatoie sociali. La community non è un firewall, ma sa riconoscere chi entra per prendere. Non serve l’IA, basta l’esperienza: frasi troppo veloci, domande troppo dirette, nessuna reciprocità.
+
+Senti il gelo di un silenzio che non è ignoranza: è giudizio collettivo.
+
+[[Scelta 1: Fare finta di nulla e spingere (rischio ban)|0.B.A.A.A.A]]
+
+[[Scelta 2: Fare un passo indietro e presentarti correttamente|0.A.B.A.B.A]]
+
+:: 0.B.A.B.B.B
+<!-- Effetti tipici: R+1 -->
+
+<<set $responsabilita += 1>>
+
+Ripieghi su P1 per ripulirti. Scegli disciplina dopo il rumore: non è elegante, ma è meglio che niente. In fondo, la vera disciplina non è “non sbagliare”. È saper rientrare in carreggiata quando sbagli.
+
+[[Scelta 1: LOG (osservazione)|0.A.B.A.A.A]]
+
+[[Scelta 2: NOTE (chiarezza)|0.A.B.A.A.B]]
+
+:: 0.B.B.A.A.A
+P1. Toolbench: LOG o NOTE. Una scelta semplice, e proprio per questo onesta: qui non puoi nasconderti dietro la complessità. Scegli come lavori.
+
+[[Scelta 1: LOG|0.A.B.A.A.A]]
+
+[[Scelta 2: NOTE|0.A.B.A.A.B]]
+
+:: 0.B.B.A.A.B
+P2. BBS. La porta sociale. Entrarci è facile. Restarci senza fare danni è la parte difficile.
+
+[[Scelta 1: Scegliere un handle e entrare|0.A.B.A.B.A]]
+
+[[Scelta 2: Provare a entrare senza handle|0.A.B.A.B.B]]
+
+:: 0.B.B.A.B.A
+P1. Toolbench.
+
+Il banco ti aspetta come una scrivania in una stanza di interrogatorio: neutrale, pulita, senza scuse. LOG e NOTE sono gli unici due modi di “parlare” qui dentro.
+
+[[Scelta 1: LOG|0.A.B.A.A.A]]
+
+[[Scelta 2: NOTE|0.A.B.A.A.B]]
+
+:: 0.B.B.A.B.B
+P2. BBS.
+
+La comunità ti aspetta come una stanza già piena: conversazioni in corso, gerarchie non dichiarate, memoria lunga. Non ti chiede di essere perfetto. Ti chiede di essere leggibile.
+
+[[Scelta 1: Handle e ingresso|0.A.B.A.B.A]]
+
+[[Scelta 2: Lurking invisibile|0.A.B.A.B.B]]
+
+:: 0.B.B.B.A.A
+LOG attivo. Torni al Backplane con disciplina. Ora puoi entrare in community senza sembrare un rumore ambulante: hai parole più precise, tempi più calmi, e soprattutto puoi spiegare cosa stai facendo.
+
+Il sistema non ti ha reso “buono”. Ti ha reso tracciabile da te stesso. È molto meglio.
+
+[[Scelta 1: Andare su BBS (P2)|0.A.B.A.B.A]]
+
+[[Scelta 2: Andare su OUTPUT/PRINTER (P6)|0.A.B.B.A.A]]
+
+:: 0.B.B.B.A.B
+NOTE attivo. Torni al Backplane con parole pulite. Le parole sono una valuta. Anche quando fai finta di odiarle. Con NOTE, il tuo rumore diventa racconto: puoi chiedere aiuto senza sembrare predatore, puoi descrivere senza vantarti.
+
+[[Scelta 1: Andare su BBS (P2)|0.A.B.A.B.A]]
+
+[[Scelta 2: Andare su OUTPUT/PRINTER (P6)|0.A.B.B.A.A]]
+
+:: 0.B.B.B.B.A
+Entri in BBS con handle. Ti appare la board "INTRODUCTIONS". È un rito d’ingresso: o lo rispetti, o vieni ricordato male.
+La cosa strana è che “ricordato” qui è un verbo tecnico: log, quote, screenshot, memoria condivisa.
+
+Se sbagli, non devi immaginare la punizione. Basta pensare alla permanenza.
+
+[[Scelta 1: Presentarti con umiltà|0.A.B.A.B.A]]
+
+[[Scelta 2: Presentarti vantandoti|0.B.A.A.A.A]]
+
+:: 0.B.B.B.B.B
+Provi a lurkare.
+"NO NAME, NO MEMORY."
+
+Il sistema non ti caccia subito. Ti mette davanti a una regola e aspetta la tua scelta. È quasi più severo così: ti lascia la responsabilità di rispettarla.
+
+[[Scelta 1: Accettare e scegliere un handle|0.A.B.A.B.A]]
+
+[[Scelta 2: Insistere (rischio ban)|0.B.A.A.A.A]]
