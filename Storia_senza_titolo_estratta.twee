@@ -1,0 +1,407 @@
+:: StoryData
+{"ifid":"C78E88A0-E786-4386-B573-2BA85B2FE2A1","format":"SugarCube","format-version":"2.37.3","start":"4"}
+
+:: Start
+<<goto "0">>
+
+:: StoryInit
+<<set $curiosita = 0>>
+<<set $padronanza = 0>>
+<<set $responsabilita = 0>>
+<<set $condivisione = 0>>
+<<set $autonomia = 0>>
+<<set $tracce = 0>>
+<<set $fiducia = 0>>
+<<set $debito = 0>>
+
+:: StoryCaption
+<!-- HUD debug: rimuovi se non vuoi vedere le metriche sempre. -->
+Curiosità:$curiosita Padronanza:$padronanza Responsabilità:$responsabilita Scondivisione:$condivisione Autonomia:$autonomia | Tracce:$tracce Fiducia:$fiducia Debito:$debito
+
+:: START
+La stanza è quasi buia. C'è una finestra chiusa, fuori piove ed è notte fonda. Un neon vibra sopra di te emanando un rumore simile a quello di una mosca. A ogni tremolio, le ombre cambiano mezzo millimetro. Il terminale sul tavolo è l’unica luce pulita: un rettangolo freddo che ti taglia le dita quando ti avvicini.
+
+Sul pavimento c’è un foglio stropicciato. Ha preso umidità nell’angolo e la carta si è raggrinzita. In un angolo, un quaderno nero chiuso: copertina opaca, nessun titolo. Non sembra dimenticato. Sembra posizionato.
+
+Il cursore lampeggia sullo schermo con una regolarità a dir poco fastidiosa, è un invito, oppure una sfida...
+
+[[Scelta 1: Prendere il foglio e guardare meglio la stanza|0.A]]
+
+[[Scelta 2: Digita sul terminale|0.B]]
+
+:: 0.A
+0.A
+
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Il foglio è più pesante di quanto sembri, e ruvido al tatto: carta spessa, stampata male, come se la stampante avesse sofferto prima di sputarlo fuori. C’è un diagramma che assomiglia a un pannello di porte numerate. Non è una mappa per orientarsi, sembrerebbe più una mappa per "scegliere” (?).
+
+Qualcuno ha cerchiato “P1” e scritto a penna: “disciplina prima, rumore dopo”. La frase è pratica, ma sotto c’è una tensione: come se “rumore” fosse una colpa che però tutti, prima o poi, commettono.
+
+Muovi il foglio verso la luce del monitor: l’inchiostro sbavato crea aloni, e gli aloni sembrano quasi—solo quasi—intenzionali.
+
+[[Scelta 1: Cercare scritte nascoste sul retro del foglio|0.A.A]]
+
+[[Scelta 2: Tenere il foglio e tornare al terminale|0.A.B]]
+
+:: 0.B
+0.B
+
+<!-- Effetti tipici: P+1 oppure T+1 a seconda della scelta successiva -->
+
+Le dita tornano sulla tastiera con un automatismo antico: input → output, domanda → risposta. Il terminale però non ti fa il favore di darti indicazioni. Nessun titolo, nessun banner, nessuna “welcome”. Solo una riga vuota.
+
+Premi Invio. Compare una sola cosa:
+
+">"
+
+È troppo poco per essere un’interfaccia, troppo preciso per essere un errore. Non è un prompt normale. È un dito puntato. È il sistema che dice: “Mostrami come pensi.”
+
+[[Scelta 1: Continuare a digitare cercando di azzeccare un comando valido|0.B.A]]
+
+[[Scelta 2: Fermarti e osservare la stanza prima di procedere|0.B.B]]
+
+:: 0.B.A
+:: 0.B.B.A
+<<set $autonomia += 1>>
+<<set $curiosita += 1>>
+
+Le dita si muovono prima che tu abbia un piano. Il cursore ti ipnotizza, e tu… gli parli.
+
+`C'è nessuno?`
+
+Invio.
+
+Per un secondo ti senti ridicolo, poi lo schermo risponde con un rifiuto secco, impersonale. Non ti insulta, non ti spiega: ti mette al tuo posto.
+
+`comando sconosciuto: "C'è"`  
+`(suggerimento: digita "help" per vedere cosa è possibile fare)`
+
+Il cursore ricompare subito dopo, più ostinato di prima.
+
+Non hai ottenuto una risposta. Hai ottenuto una regola: qui dentro le parole contano solo se sono nel vocabolario giusto.
+
+[[Scelta 1: Scrivi help ed invii|0.B.A.A]]
+[[Scelta 2: Cerchi di uscire dal terminale per esplorare altro in quel computer|0.B.A.B]]
+
+:: 0.B.B
+0.B.B
+
+<!-- Effetti tipici: C+1, R+1 -->
+
+<<set $curiosita += 1>>
+<<set $responsabilita += 1>>
+
+Ti fermi. E all’improvviso la stanza diventa rumorosa. Il rumore in realtà già c’era: eri tu che lo coprivi con la tastiera.
+
+Il neon vibra appena. Il monitor ti illumina le mani. Sullo schermo, il cursore lampeggia con una pazienza irritante.
+
+Da qualche parte, un dispositivo elettronico fa “tic” a intervalli regolari. Non è un beep digitale, è più un suono metallico, quasi meccanico. Un cuore artificiale, ma di cattivo gusto.
+
+[[Scelta 1: Digita qualcosa cercando di azzeccare un comando valido|0.B.A]]
+[[Avvicinati al ticchettio metallico|0.B.B.B]]
+
+:: 0.A.A.A
+0.A.A.A
+
+<!-- Effetti tipici: C+1 -->
+
+<<set $curiosita += 1>>
+
+Confronti i numeri del foglio con la stanza: angoli, distanze, oggetti. Ti muovi piano, misurando con lo sguardo prima che con le mani. Una coordinata “cade” esattamente sul retro del tavolo. Ci passi le dita: una vite è allentata di un quarto di giro, il tipo di errore che nessuno fa per distrazione.
+
+Quando la tocchi, il metallo è più caldo del resto. Qualcuno ci è stato vicino di recente. Oppure quel punto è vicino a qualcosa che lavora, nascosto.
+
+La stanza, per la prima volta, sembra avere un secondo livello.
+
+[[Scelta 1: Svitarla e vedere cosa c\'è sotto il tavolo|0.A.A.A.A]]
+
+[[Scelta 2: Lasciare tutto com'è e andare al terminale con l'indizio in testa TODO|0.A.A.A.B]]
+
+:: 0.B.A.A
+0.B.B.A.A
+<<set $padronanza += 1>>
+<<set $responsabilita += 1>>
+
+Digiti `help`.
+
+Premi invio e aspetti pochi secondi prima che qualcosa accada.
+
+Non un menu grafico, non una guida, tre parole allineate.
+
+`comandi disponibili:`
+`- help`
+`- frogger`
+`- nautilus`
+
+Tre possibilità. Nessuna spiegazione.
+Come se l’unica forma di fiducia concessa qui dentro fosse: “prova, e guarda cosa succede”.
+
+[[Digitare backplane|FROGGER]]
+[[Chiudere tutto e tornare alla stanza|NAUTILUS]]
+
+:: 0.B.A.B
+
+
+:: 0.B.B.B
+
+
+:: 0.A.A.A.A
+0.A.A.A.A
+
+<!-- Effetti tipici: P+1, A+1 -->
+
+<<set $padronanza += 1>>
+<<set $autonomia += 1>>
+
+La vite cede con un piccolo “tac” soddisfacente. Sotto il tavolo c’è una scatola sottile fissata con fascette. La plastica ha il segno del tempo e delle dita: opaca dove qualcuno l’ha aperta e richiusa troppe volte.
+
+Dentro: un cavo corto e un adattatore con scritto “P1”. Non è un accessorio. È una chiave fisica. E la cosa inquietante è che qualcuno l’ha lasciata qui sapendo che l’avresti trovata… se avessi guardato.
+
+Il sistema, evidentemente, premia la curiosità che passa per la precisione.
+
+
+Lo rigiri tra le dita. Il connettore è “giusto” in quel modo che riconosci senza sapere perché: come una serratura che ti sta già aspettando..
+
+[[Scelta 1: Inserisci la chiave e ti lasci andare|0.A.A.A.A.A]]
+
+[[Scelta 2: Non ti fidi ... TODO |0.A.A.A.A.B]]
+
+:: 0.B.B.A.A
+0.B.B.A.A
+<<set $padronanza += 1>>
+<<set $responsabilita += 1>>
+
+Scrivi `help`.
+
+Invio.
+
+Appaiono davanti a te un elenco corto, asciutto, come se volesse evitare di darti troppo potere tutto insieme.
+
+`Comandi disponibili:`
+`- frogger`
+`- backplane`
+`- clear`
+`- exit`
+
+[[Digitare backplane|0.A.B.A]]
+[[Chiudere tutto e tornare alla stanza|0.B.B]]
+
+:: 0.A.B.A.A.A
+0.A.B.A.A.A
+
+<<set $curiosita = (State.variables.curiosita === undefined) ? 0 : $curiosita>>
+<<set $padronanza = (State.variables.padronanza === undefined) ? 0 : $padronanza>>
+<<set $responsabilita = (State.variables.responsabilita === undefined) ? 0 : $responsabilita>>
+<<set $condivisione = (State.variables.condivisione === undefined) ? 0 : $condivisione>>
+<<set $autonomia = (State.variables.autonomia === undefined) ? 0 : $autonomia>>
+<<set $tracce = (State.variables.tracce === undefined) ? 0 : $tracce>>
+<<set $fiducia = (State.variables.fiducia === undefined) ? 0 : $fiducia>>
+<<set $debito = (State.variables.debito === undefined) ? 0 : $debito>>
+
+Clicchi.
+
+Per un istante non succede niente. Poi senti la ventola del computer che inizia a lavorare quasi come se sapesse che le aspetta tanto lavoro da fare. Poi la griglia, a quadretti con sfondo bianco, prende vita con una freddezza elegante: quadratini neri che appaiono, spariscono, riappaiono altrove. Non c’è grafica. C’è solo ritmo.
+
+All’inizio sembra caos. Un fruscio visivo. Un temporale di nascita e morte.
+
+Poi noti un dettaglio. Ogni volta che un punto si spegne, lo fa come se ci fosse un criterio, come se avesse pagato il prezzo di essere rimasto solo. Non sembra più così casuale. Ogni volta che un punto resta acceso, è perché è nel posto giusto: né isolato, né soffocato. Ogni volta che un punto si accende dal nulla, lo fa come risposta.
+
+Il programma non ti spiega nulla. Ti lascia guardare, come se la spiegazione fosse un premio per chi sa restare fermo abbastanza a lungo.
+
+E tu resti.
+
+"Ma certo! Le cellule di prima... muoiono, vivono..."
+
+Una figura si ripete. Due linee che tremano, si spezzano, si ricompongono. Un battito: accende, spegne, accende. Una piccola sirena fatta di quadrati, che si ostina a tornare identica. Altre macchie invece collassano, si consumano in silenzio, come se la griglia le avesse giudicate troppo costose da mantenere.
+
+A un certo punto la tua attenzione smette di inseguire i singoli quadratini. Inizi a vedere qualcosa di più grande: comportamenti. Abitudini. Stili.
+
+Alcune forme sono arroganti: nascono grandi e muoiono subito, come se avessero voluto occupare tutto. Altre sono timide: nascono in tre, provano a restare, poi svaniscono perché nessuno le riesce a mantenere vive. Altre ancora sono strane, quasi educate: si muovono solo quel tanto che basta, e per questo sopravvivono.
+
+E poi accade una cosa che non ti aspettavi: in mezzo al rumore, una piccola costellazione smette di oscillare e comincia a… ripresentarsi.
+
+Non nello stesso posto.
+
+Come se la griglia avesse trovato un modo per trasportare un’idea.
+
+Vedi quattro, cinque quadratini che sembrano inseguirsi. Si spengono e si riaccendono a turno, eppure la “macchia” complessiva mantiene un’identità. È come guardare un animale senza ossa: non corre, non striscia, non salta… ma dopo pochi battiti è spostato di una cella.
+
+Di nuovo.
+
+E ancora.
+
+Ogni ciclo è un piccolo sacrificio: un quadratino muore, un altro nasce, due resistono. Nessuno è “il leader”, eppure la forma continua. È una migrazione fatta di sostituzioni, come se il movimento fosse il risultato di regole locali che non hanno alcuna idea del risultato finale.
+
+La cosa più disturbante è la sensazione di riconoscimento: quella figura non è bella, non è simmetrica, non sembra progettata. Però è… inevitabile. Come se, date abbastanza generazioni, alcune strutture finissero sempre per emergere, non perché qualcuno le vuole, ma perché sono compatibili con il mondo in cui esistono.
+
+La forma prosegue con ostinazione, in diagonale. Non lascia scie. Non fa rumore. Semplicemente continua.
+
+Ti rendi conto che stai trattenendo il fiato da un po’.
+
+Tuono.
+Tremore.
+Brivido.
+Sospiro e…
+
+Il cursore lampeggia in basso, come se chiedesse: “Hai visto abbastanza?”
+
+[[Fine.|FINE.STIMA.1]]
+
+:: 0.A.A.A.A.A
+0.A.A.A.A.A
+
+<<set $padronanza += 1>>
+
+Il click dell’adattatore è quasi impercettibile. Torni al computer e lo schermo sembra lo stesso… ma ad un certo punto si apre un programma.
+
+Nel ben mezzo dello schermo iniziarono ad uscire fuori delle lettere, poi delle parole, infine intere frasi come se qualcuno le stesse digitando proprio in quel momento, dicevano:
+
+- Qualsiasi cellula viva con meno di due cellula vive adiacenti muore, come per effetto d'isolamento; 
+- Qualsiasi cellula viva con due o tre cellula vive adiacenti sopravvive alla generazione successiva; 
+- Qualsiasi cellula viva con più di tre cellula vive adiacenti muore, come per effetto di sovrappopolazione; 
+- Qualsiasi cellula morta con esattamente tre cellula vive adiacenti diventa una cellula viva, come per effetto di riproduzione.
+
+Ma che cavolo era? Cellule? Riproduzione? Morte?
+
+Tuono.
+Tremore.
+Brivido.
+Sospiro e...
+ 
+
+[[Clicca sul pulsante 'Genesi'|0.A.B.A.A.A]] 
+[[Clicca sulla X e chiude il programma TODO|0.A.B.A.A.B]]
+
+:: FINE.STIMA.1
+<<set _cur = (State.variables.curiosita === undefined) ? 0 : $curiosita>>
+<<set _pad = (State.variables.padronanza === undefined) ? 0 : $padronanza>>
+<<set _res = (State.variables.responsabilita === undefined) ? 0 : $responsabilita>>
+<<set _con = (State.variables.condivisione === undefined) ? 0 : $condivisione>>
+<<set _aut = (State.variables.autonomia === undefined) ? 0 : $autonomia>>
+<<set _tra = (State.variables.tracce === undefined) ? 0 : $tracce>>
+<<set _fid = (State.variables.fiducia === undefined) ? 0 : $fiducia>>
+<<set _deb = (State.variables.debito === undefined) ? 0 : $debito>>
+
+<<set _total = _cur + _pad + _res + _con + _aut + _tra + _fid + _deb>>
+
+<<set _pairs = [
+  {k:"Curiosità", v:_cur},
+  {k:"Padronanza", v:_pad},
+  {k:"Responsabilità", v:_res},
+  {k:"Condivisione", v:_con},
+  {k:"Autonomia", v:_aut},
+  {k:"Tracce", v:_tra},
+  {k:"Fiducia", v:_fid},
+  {k:"Debito", v:_deb}
+]>>
+
+<<set _pairs = _pairs.sort((a,b) => b.v - a.v)>>
+<<set _top = _pairs[0].k>>
+<<set _topv = _pairs[0].v>>
+
+<<set _motivo = "">>
+<<if _top is "Curiosità">>
+  <<set _motivo = "Hai scelto di guardare fino a vedere un comportamento emergere dal rumore. Non hai cercato scorciatoie: hai lasciato che il sistema ti mostrasse i suoi segreti.">>
+<<elseif _top is "Padronanza">>
+  <<set _motivo = "Hai resistito alla tentazione di interpretare subito. Hai osservato i dettagli, hai riconosciuto pattern e conseguenze: controllo senza fretta.">>
+<<elseif _top is "Responsabilità">>
+  <<set _motivo = "Hai trattato ciò che vedevi come qualcosa che lascia conseguenze. Hai accettato che ogni scelta ha un costo, e che anche gli errori restano parte della storia.">>
+<<elseif _top is "Condivisione">>
+  <<set _motivo = "Hai cercato senso che possa essere raccontato, non solo vissuto. Hai privilegiato ciò che può diventare conoscenza trasferibile.">>
+<<elseif _top is "Autonomia">>
+  <<set _motivo = "Hai scelto di reggerti sulle tue osservazioni. Hai camminato senza istruzioni, costruendo il tuo modo di leggere la macchina.">>
+<<elseif _top is "Tracce">>
+  <<set _motivo = "Hai seguito ciò che rimane: segnali, ricorrenze, impronte. Hai lasciato che fossero i residui a guidarti.">>
+<<elseif _top is "Fiducia">>
+  <<set _motivo = "Hai accettato di entrare in un contesto sconosciuto senza pretendere garanzie immediate. Hai continuato anche quando non era chiaro 'cosa' stavi guardando.">>
+<<elseif _top is "Debito">>
+  <<set _motivo = "Hai riconosciuto che ciò che scopri non nasce dal nulla: qualcuno ha preparato un percorso. Hai percepito la rete invisibile di favori, indizi e lasciti.">>
+<<else>>
+  <<set _motivo = "Hai attraversato il percorso lasciandoti guidare dall’istinto.">>
+<</if>>
+
+Hai sviluppato soprattutto: _top ( _topv ).  
+_motivo
+
+:: FROGGER
+:: 0.B.B.A.A
+<<set $padronanza += 1>>
+<<set $curiosita += 1>>
+
+Scrivi:
+
+`frogger`
+
+Invio.
+
+Lo schermo “sbuffa” come una vecchia macchina che si sveglia. Il terminale si ripulisce da solo e, per un istante, vedi soltanto una riga in alto:
+
+`FROGGER`
+
+Poi la griglia compare a scatti: righe nette, corsie, un fiume che non sembra acqua ma una sequenza di blocchi in movimento. In basso, un simbolo minuscolo: tu. Non una persona. Un’icona. Una cosa che deve attraversare.
+
+All’inizio ti sembra banale. Ti dici: “ok, è un gioco”.
+
+Poi inizi davvero.
+
+Una corsia, due. Il ritmo prende le mani: non hai tempo di pensare, solo di decidere. Ogni passo è un sì o un no. Ogni esitazione è punita. Le “macchine” non sono macchine: sono regole che scorrono. I “tronchi” non sono tronchi: sono finestre.
+
+Ti accorgi che stai sorridendo, ma è un sorriso strano, teso. Da qualche parte tra il secondo e il terzo tentativo capisci perché questo è qui: non per divertirti. Per addestrarti.
+
+Passano minuti senza che te ne accorga. Piccoli miglioramenti. Piccoli errori. Il tuo corpo impara prima della tua testa. Inizi a leggere il ritmo, a prevedere un mezzo secondo prima, a scegliere il varco “che non c’è ancora”.
+
+E proprio quando ti senti competente—quando per un attimo ti sembra di aver capito—succede la cosa più fastidiosa: una scelta impulsiva. Un passo di troppo. Un intervallo sbagliato.
+
+Un colpo secco. Il tuo simbolo sparisce.
+
+Per mezzo secondo la griglia resta lì, indifferente, come se nulla fosse successo. Poi il programma scrive, senza alcuna pietà:
+
+`GAME OVER`
+
+Sotto, due righe. Due porte.
+
+[[Rigioca|REPLAY-FROGGER-LOSE]]
+[[Rigioca|REPLAY-FROGGER-WIN]]
+[[Chiudi e torna al terminale|COME-BACK-TO-TERMINAL]]
+
+:: NAUTILUS
+
+
+:: COME-BACK-TO-TERMINAL
+
+
+:: REPLAY-FROGGER-LOSE
+Riparti convinto di farcela. E per un po’ sembra vero.
+
+Poi succede l’errore classico: non quello “stupido”. Quello minuscolo. Un passo fatto mezzo battito troppo presto, come se per un istante avessi creduto che il mondo ti avrebbe aspettato.
+
+Non lo fa.
+
+Il tuo simbolo sparisce, e la griglia resta lì, indifferente.
+
+`GAME OVER`
+
+[[Rigioca|REPLAY-FROGGER-LOSE]]
+[[Rigioca|REPLAY-FROGGER-WIN]]
+[[Chiudi e torna al terminale|COME-BACK-TO-TERMINAL]]
+
+:: REPLAY-FROGGER-WIN
+Qualcosa “scatta” dentro di te. Non è fortuna: è ritmo.
+
+Le corsie diventano leggibili, non più minacce. Il fiume smette di essere caos e diventa sequenza. Ti muovi senza pensarci troppo, come se le mani avessero imparato una lingua nuova.
+
+Un passo, un varco, un altro passo.
+
+Arrivi dall’altra parte.
+
+Per un secondo lo schermo resta fermo, quasi rispettoso. Poi compare una scritta:
+
+`YOU WIN`
+
+E sotto, come se fosse la cosa più normale del mondo, due pulsanti:
+
+[[Rigioca|REPLAY-FROGGER-WIN]]
+[[Chiudi e torna al terminale|COME-BACK-TO-TERMINAL]]
