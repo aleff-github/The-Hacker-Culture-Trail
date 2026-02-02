@@ -81,60 +81,6 @@ Il display reagisce con un messaggio breve, "bentornato", seguito da un pulsante
 [[Clicca sulla X e chiudi il programma|TERMINAL.0]]
 
 
-:: FINE {"position":"50,700","size":"100,100"}
-FINE
-
-<<set _cur = (State.variables.curiosita === undefined) ? 0 : $curiosita>>
-<<set _pad = (State.variables.padronanza === undefined) ? 0 : $padronanza>>
-<<set _res = (State.variables.responsabilita === undefined) ? 0 : $responsabilita>>
-<<set _con = (State.variables.condivisione === undefined) ? 0 : $condivisione>>
-<<set _aut = (State.variables.autonomia === undefined) ? 0 : $autonomia>>
-<<set _tra = (State.variables.tracce === undefined) ? 0 : $tracce>>
-<<set _fid = (State.variables.fiducia === undefined) ? 0 : $fiducia>>
-<<set _deb = (State.variables.debito === undefined) ? 0 : $debito>>
-
-<<set _total = _cur + _pad + _res + _con + _aut + _tra + _fid + _deb>>
-
-<<set _pairs = [
-  {k:"Curiosità", v:_cur},
-  {k:"Padronanza", v:_pad},
-  {k:"Responsabilità", v:_res},
-  {k:"Condivisione", v:_con},
-  {k:"Autonomia", v:_aut},
-  {k:"Tracce", v:_tra},
-  {k:"Fiducia", v:_fid},
-  {k:"Debito", v:_deb}
-]>>
-
-<<set _pairs = _pairs.sort((a,b) => b.v - a.v)>>
-<<set _top = _pairs[0].k>>
-<<set _topv = _pairs[0].v>>
-
-<<set _motivo = "">>
-<<if _top is "Curiosità">>
-  <<set _motivo = "Hai scelto di guardare fino a vedere un comportamento emergere dal rumore. Non hai cercato scorciatoie: hai lasciato che il sistema ti mostrasse i suoi segreti.">>
-<<elseif _top is "Padronanza">>
-  <<set _motivo = "Hai resistito alla tentazione di interpretare subito. Hai osservato i dettagli, hai riconosciuto pattern e conseguenze: controllo senza fretta.">>
-<<elseif _top is "Responsabilità">>
-  <<set _motivo = "Hai trattato ciò che vedevi come qualcosa che lascia conseguenze. Hai accettato che ogni scelta ha un costo, e che anche gli errori restano parte della storia.">>
-<<elseif _top is "Condivisione">>
-  <<set _motivo = "Hai cercato senso che possa essere raccontato, non solo vissuto. Hai privilegiato ciò che può diventare conoscenza trasferibile.">>
-<<elseif _top is "Autonomia">>
-  <<set _motivo = "Hai scelto di reggerti sulle tue osservazioni. Hai camminato senza istruzioni, costruendo il tuo modo di leggere la macchina.">>
-<<elseif _top is "Tracce">>
-  <<set _motivo = "Hai seguito ciò che rimane: segnali, ricorrenze, impronte. Hai lasciato che fossero i residui a guidarti.">>
-<<elseif _top is "Fiducia">>
-  <<set _motivo = "Hai accettato di entrare in un contesto sconosciuto senza pretendere garanzie immediate. Hai continuato anche quando non era chiaro 'cosa' stavi guardando.">>
-<<elseif _top is "Debito">>
-  <<set _motivo = "Hai riconosciuto che ciò che scopri non nasce dal nulla: qualcuno ha preparato un percorso. Hai percepito la rete invisibile di favori, indizi e lasciti.">>
-<<else>>
-  <<set _motivo = "Hai attraversato il percorso lasciandoti guidare dall’istinto.">>
-<</if>>
-
-Hai sviluppato soprattutto: _top ( _topv ).  
-_motivo
-
-
 :: FROGGER {"position":"525,400","size":"100,100"}
 FROGGER
 
@@ -224,8 +170,6 @@ Hai vinto a frogger."
 La finestra resta aperta. Nessun tasto “OK”. Nessuna conferma.
 Come se leggere fosse già parte della prova.
 
-[[Fine|FINE]]
-
 
 :: FROGGER.WIN {"position":"525,525","size":"100,100"}
 FROGGER.WIN
@@ -294,8 +238,6 @@ Tremore.
 Brivido.
 Sospiro e…
 
-[[Fine|FINE]]
-
 
 :: HOMEBREW {"position":"175,700","size":"100,100"}
 HOMEBREW
@@ -335,7 +277,24 @@ HOMEBREW.APRI-LA-PORTA
 
 
 :: NAUTILUS {"position":"700,300","size":"100,100"}
-
+Cosa succede?
+Lo sviluppatore avrà dimenticato di creare questo nodo della storia?
+No.
+Aspetta, ma sono io… tecnicamente sto parlando da solo?
+Ma ad ogni modo, ho deciso di voler lasciare questo nodo volutamente "rotto" per fare un appello a chiunque arrivi qui.
+Come avrai capito si tratta di una storia raccontata più che di un gioco vero e proprio (o forse sono i giochi veri e propri ad essere sbagliati?).
+Si suddivide in stanze, epoche, e fatti completamente differenti che in qualche modo sono attinenti alla controcultura hacker.
+Anche se il gioco in sé e per sé può sembrarti piccolo in realtà non è stato affatto semplice, creare una storia interconnessa con un filo logico è molto più complesso di quel che sembra e quindi prima di perderci il resto dei miei giorni a creare qualcosa di interminabile (vista la voglia che c'è nel voler raccontare quello che so della cultura hacker come omaggio alla sua diffusione) ho deciso di impormi un punto.
+A differenza degli altri finali che troverai rigiocando la storia questo finale è "rotto" perché non ha una conclusione aperta ad un nuovo capitolo ed il motivo è che vorrei utilizzare questo spazio per capire a chi arriva questo messaggio.
+Non mi ritengo affatto un hacker (anche perché com'è noto non ci si può autoproclamare di questo tanto ambito quanto mal utilizzato titolo) ma di certo ho il malsano vizio di non sapermi fermare. Come vi dicevo prima ogni percorso vi porta da qualche parte e non si tratta di un percorso lineare, è evidente che viaggiate nel tempo e nello spazio, ma il punto è proprio questo… fin dove? Esiste una fine raccontabile? Well, probabilmente no, ma ad un certo punto è importante quantomeno temporeggiare e capire dove sta andando questa cosa.
+E dopo questo monologo (perdonatemi se sono logorroico) arrivo al punto?
+Vi piace?
+Onestamente non spero vi piaccia, spero più che altro di non aver offeso nessuno quindi vi invito a scrivermi, farmi sapere le vostre opinioni in merito a ciò che ho scritto, agli eventi raccontati e a tutto il resto.
+Consigliatemi storie da scrivere ed easter egg da creare o fatemi sapere quelli che trovate (magari in privato per evitare spoiler) (magari fate collegamenti strani ed inventate easter egg senza volerlo, tecnicamente è come aver partecipato alla creazione del gioco, no?).
+Sarebbe bello aiutarmi in questa bella impresa di partecipare attivamente al mantenimento di questa controcultura.
+Scrivetemi storie di hacker non noti che vorreste raccontare, progettate nuove stanze o aiutatemi a scrivere quelle che già avevo pensato di fare. Magari partite da Nautilus stesso, no?
+Ad ogni modo mi farebbe piacere sentirvi.
+Questo gioco è un omaggio alla cultura e alla controcultura hacker e seppure l'ultimo vero hacker resta il buon vecchio Richard Stallman, nulla toglie che possiamo essere dei (più o meno buoni) giovani manutentori della cultura hacker.
 
 
 :: SCOPRI-DEFCON {"position":"250,575","size":"100,100"}
