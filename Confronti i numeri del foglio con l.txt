@@ -1,9 +1,0 @@
-Confronti i numeri del foglio con la stanza: angoli, distanze, oggetti. Ti muovi piano, misurando con lo sguardo prima che con le mani. Una coordinata “cade” esattamente sul retro del tavolo. Ci passi le dita: una vite è allentata di un quarto di giro, il tipo di errore che nessuno fa per distrazione.
-
-Quando la tocchi, il metallo è più caldo del resto. Qualcuno ci è stato vicino di recente. Oppure quel punto è vicino a qualcosa che lavora, nascosto.
-
-La stanza, per la prima volta, sembra avere un secondo livello.
-
-[[Scelta 1: Svitarla e vedere cosa c\'è sotto il tavolo|0.A.A.A.A]]
-
-[[Scelta 2: Lasciare tutto com'è e andare al terminale con l'indizio in testa TODO|0.A.A.A.B]]

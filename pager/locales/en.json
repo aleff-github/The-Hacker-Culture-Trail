@@ -1,0 +1,13 @@
+{
+  "app.title": "ufficiale",
+  "ui.restart": "Restart",
+  "ui.back": "Back",
+  "ui.language": "Language",
+  "ui.loading": "Loading…",
+  "ui.missing": "[missing text]",
+  "ui.choiceHint": "Use ← → and Enter (or tap buttons).",
+  "ui.saveHint": "Autosave.",
+  "p.0.body": "La stanza è quasi buia. C'è una finestra leggermente aperta, fuori piove ed è notte fonda. Un neon vibra sopra di te emanando un rumore simile a quello di una mosca. A ogni tremolio, le ombre cambiano mezzo millimetro. Il terminale sul tavolo è l’unica luce pulita: un rettangolo freddo che ti taglia le dita quando ti avvicini.\n\nSul pavimento c’è un foglio stropicciato. Ha preso umidità nell’angolo e la carta si è raggrinzita. In un angolo, un quaderno nero chiuso: copertina opaca, nessun titolo. Non sembra dimenticato. Sembra posizionato.\n\nIl cursore lampeggia sullo schermo con una regolarità a dir poco fastidiosa, è un invito, oppure una sfida...",
+  "p.0.c1": "Scelta 1: Prendere il foglio e guardare meglio la stanza",
+  "p.0.c2": "Scelta 2: Digita sul terminale"
+}

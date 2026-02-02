@@ -1,0 +1,263 @@
+{
+  "title": "ufficiale",
+  "start": "0",
+  "passages": {
+    "0": {
+      "bodyKey": "p.0.body",
+      "choices": [
+        {
+          "labelKey": "p.0.c1",
+          "to": "STANZA.FOGLIO"
+        },
+        {
+          "labelKey": "p.0.c2",
+          "to": "TERMINAL.0"
+        }
+      ]
+    },
+    "ADATTATORE-INSERITO": {
+      "bodyKey": "p.ADATTATORE-INSERITO.body",
+      "choices": [
+        {
+          "labelKey": "p.ADATTATORE-INSERITO.c1",
+          "to": "GENESI"
+        },
+        {
+          "labelKey": "p.ADATTATORE-INSERITO.c2",
+          "to": "STANZA.TICCHETTIO"
+        }
+      ]
+    },
+    "DEFCON-BADGE.RUN": {
+      "bodyKey": "p.DEFCON-BADGE.RUN.body",
+      "choices": [
+        {
+          "labelKey": "p.DEFCON-BADGE.RUN.c1",
+          "to": "SCOPRI-DEFCON"
+        },
+        {
+          "labelKey": "p.DEFCON-BADGE.RUN.c2",
+          "to": "TERMINAL.0"
+        }
+      ]
+    },
+    "FROGGER": {
+      "bodyKey": "p.FROGGER.body",
+      "choices": [
+        {
+          "labelKey": "p.FROGGER.c1",
+          "to": "FROGGER.WIN"
+        },
+        {
+          "labelKey": "p.FROGGER.c2",
+          "to": "FROGGER.LOSE"
+        },
+        {
+          "labelKey": "p.FROGGER.c3",
+          "to": "TERMINAL.BASE"
+        }
+      ]
+    },
+    "FROGGER.LOSE": {
+      "bodyKey": "p.FROGGER.LOSE.body",
+      "choices": [
+        {
+          "labelKey": "p.FROGGER.LOSE.c1",
+          "to": "FROGGER.WIN"
+        },
+        {
+          "labelKey": "p.FROGGER.LOSE.c2",
+          "to": "FROGGER.LOSE"
+        },
+        {
+          "labelKey": "p.FROGGER.LOSE.c3",
+          "to": "TERMINAL.BASE"
+        }
+      ]
+    },
+    "FROGGER.MESSAGE": {
+      "bodyKey": "p.FROGGER.MESSAGE.body",
+      "choices": []
+    },
+    "FROGGER.WIN": {
+      "bodyKey": "p.FROGGER.WIN.body",
+      "choices": [
+        {
+          "labelKey": "p.FROGGER.WIN.c1",
+          "to": "FROGGER.MESSAGE"
+        },
+        {
+          "labelKey": "p.FROGGER.WIN.c2",
+          "to": "TERMINAL.BASE"
+        }
+      ]
+    },
+    "GENESI": {
+      "bodyKey": "p.GENESI.body",
+      "choices": []
+    },
+    "HOMEBREW": {
+      "bodyKey": "p.HOMEBREW.body",
+      "choices": [
+        {
+          "labelKey": "p.HOMEBREW.c1",
+          "to": "0"
+        },
+        {
+          "labelKey": "p.HOMEBREW.c2",
+          "to": "HOMEBREW.APRI-LA-PORTA"
+        }
+      ]
+    },
+    "HOMEBREW.APRI-LA-PORTA": {
+      "bodyKey": "p.HOMEBREW.APRI-LA-PORTA.body",
+      "choices": []
+    },
+    "NAUTILUS": {
+      "bodyKey": "p.NAUTILUS.body",
+      "choices": []
+    },
+    "SCOPRI-DEFCON": {
+      "bodyKey": "p.SCOPRI-DEFCON.body",
+      "choices": []
+    },
+    "STANZA.COORDINATE": {
+      "bodyKey": "p.STANZA.COORDINATE.body",
+      "choices": [
+        {
+          "labelKey": "p.STANZA.COORDINATE.c1",
+          "to": "STANZA.VITE"
+        },
+        {
+          "labelKey": "p.STANZA.COORDINATE.c2",
+          "to": "TERMINAL.0"
+        }
+      ]
+    },
+    "STANZA.DEFCON-BADGE": {
+      "bodyKey": "p.STANZA.DEFCON-BADGE.body",
+      "choices": [
+        {
+          "labelKey": "p.STANZA.DEFCON-BADGE.c1",
+          "to": "DEFCON-BADGE.RUN"
+        },
+        {
+          "labelKey": "p.STANZA.DEFCON-BADGE.c2",
+          "to": "HOMEBREW"
+        }
+      ]
+    },
+    "STANZA.FOGLIO": {
+      "bodyKey": "p.STANZA.FOGLIO.body",
+      "choices": [
+        {
+          "labelKey": "p.STANZA.FOGLIO.c1",
+          "to": "STANZA.FOGLIO.RETRO"
+        },
+        {
+          "labelKey": "p.STANZA.FOGLIO.c2",
+          "to": "TERMINAL.0"
+        }
+      ]
+    },
+    "STANZA.FOGLIO.RETRO": {
+      "bodyKey": "p.STANZA.FOGLIO.RETRO.body",
+      "choices": [
+        {
+          "labelKey": "p.STANZA.FOGLIO.RETRO.c1",
+          "to": "STANZA.COORDINATE"
+        }
+      ]
+    },
+    "STANZA.TICCHETTIO": {
+      "bodyKey": "p.STANZA.TICCHETTIO.body",
+      "choices": [
+        {
+          "labelKey": "p.STANZA.TICCHETTIO.c1",
+          "to": "TERMINAL.1"
+        },
+        {
+          "labelKey": "p.STANZA.TICCHETTIO.c2",
+          "to": "STANZA.DEFCON-BADGE"
+        }
+      ]
+    },
+    "STANZA.VITE": {
+      "bodyKey": "p.STANZA.VITE.body",
+      "choices": [
+        {
+          "labelKey": "p.STANZA.VITE.c1",
+          "to": "ADATTATORE-INSERITO"
+        },
+        {
+          "labelKey": "p.STANZA.VITE.c2",
+          "to": "TERMINAL.0"
+        }
+      ]
+    },
+    "Start": {
+      "bodyKey": "p.Start.body",
+      "choices": []
+    },
+    "StoryCaption": {
+      "bodyKey": "p.StoryCaption.body",
+      "choices": []
+    },
+    "StoryInit": {
+      "bodyKey": "p.StoryInit.body",
+      "choices": []
+    },
+    "TERMINAL.0": {
+      "bodyKey": "p.TERMINAL.0.body",
+      "choices": [
+        {
+          "labelKey": "p.TERMINAL.0.c1",
+          "to": "TERMINAL.1"
+        },
+        {
+          "labelKey": "p.TERMINAL.0.c2",
+          "to": "STANZA.FOGLIO"
+        }
+      ]
+    },
+    "TERMINAL.1": {
+      "bodyKey": "p.TERMINAL.1.body",
+      "choices": [
+        {
+          "labelKey": "p.TERMINAL.1.c1",
+          "to": "TERMINAL.HELP"
+        },
+        {
+          "labelKey": "p.TERMINAL.1.c2",
+          "to": "NAUTILUS"
+        }
+      ]
+    },
+    "TERMINAL.BASE": {
+      "bodyKey": "p.TERMINAL.BASE.body",
+      "choices": [
+        {
+          "labelKey": "p.TERMINAL.BASE.c1",
+          "to": "TERMINAL.HELP"
+        },
+        {
+          "labelKey": "p.TERMINAL.BASE.c2",
+          "to": "NAUTILUS"
+        }
+      ]
+    },
+    "TERMINAL.HELP": {
+      "bodyKey": "p.TERMINAL.HELP.body",
+      "choices": [
+        {
+          "labelKey": "p.TERMINAL.HELP.c1",
+          "to": "FROGGER"
+        },
+        {
+          "labelKey": "p.TERMINAL.HELP.c2",
+          "to": "NAUTILUS"
+        }
+      ]
+    }
+  }
+}
