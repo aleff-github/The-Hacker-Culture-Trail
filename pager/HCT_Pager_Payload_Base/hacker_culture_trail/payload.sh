@@ -1,295 +1,302 @@
-#!/bin/bash
-# Title: The Hacker Culture Trail (game)
-# Description: Interactive fiction about hacker culture. Offline. No wireless actions.
-# Author: Aleff
+#!/bin/sh
+# The Hacker Culture Trail - TSV/LANG engine (POSIX sh / BusyBox friendly)
 
-set -euo pipefail
+set -u
 
-PAYLOAD_NAME="hctrail"
-BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-STORY_TSV="${BASE_DIR}/story/story.tsv"
-LOCALES_DIR="${BASE_DIR}/locales"
+STORY_FILE="${STORY_FILE:-./story/story.tsv}"
+LANG_FILE="${LANG_FILE:-./locales/it.lang}"
+SAVE_FILE="${SAVE_FILE:-/tmp/hct.save}"
+HIST_FILE="${HIST_FILE:-/tmp/hct.hist}"
 
-# --- i18n (key=value .lang files) --------------------------------------------
+die() { printf "ERR: %s\n" "$*" >&2; exit 1; }
 
-_lang_get() {
-  local key="$1" file="$2"
-  # exact-key match before first '='
-  awk -F'=' -v k="$key" '$1==k{ $1=""; sub(/^=/,""); print; exit }' "$file"
-}
-
-t() {
-  local key="$1"
-  local val=""
-  val="$(_lang_get "$key" "$LOCALE_FILE" || true)"
-  if [ -z "$val" ] && [ "$LANG_CODE" != "it" ] && [ -f "${LOCALES_DIR}/it.lang" ]; then
-    val="$(_lang_get "$key" "${LOCALES_DIR}/it.lang" || true)"
-  fi
-  # interpret \n and \\ sequences
-  printf '%b' "$val"
-}
-
-# --- story graph -------------------------------------------------------------
-
-node_line() {
-  local id="$1"
-  awk -F'\t' -v k="$id" '$1==k{print; exit}' "$STORY_TSV"
-}
-
-get_next() {
-  # $1 = node_id, $2 = 1 or 2
-  local line
-  line="$(node_line "$1")"
-  [ -n "$line" ] || { echo ""; return; }
-  if [ "$2" = "1" ]; then
-    echo "$line" | cut -f2
+# ---------- IO ----------
+INPUT_DEV() {
+  # Prefer tty if present, else fallback to stdin
+  if [ -r /dev/tty ] 2>/dev/null; then
+    echo /dev/tty
   else
-    echo "$line" | cut -f3
-  fi
-}
-
-rand_u32() {
-  if [ -r /dev/urandom ]; then
-    od -An -N4 -tu4 /dev/urandom 2>/dev/null | tr -d ' ' | tr -d '\n'
-    return
-  fi
-
-  local a b c
-  a=$RANDOM
-  b=$RANDOM
-  c=$RANDOM
-  echo $(( ((a & 0x7fff) << 17) | ((b & 0x7fff) << 2) | (c & 0x3) ))
-}
-
-rand_range() {
-  local n="$1"
-  [ -z "$n" ] && return 1
-  [ "$n" -le 0 ] 2>/dev/null && return 1
-
-  local v limit
-  limit=$(( (4294967296 / n) * n ))
-
-  while true; do
-    v="$(rand_u32)"
-    [ -z "$v" ] && v=0
-    if [ "$v" -lt "$limit" ]; then
-      echo $(( v % n ))
-      return 0
-    fi
-  done
-}
-
-resolve_target() {
-  local tgt="${1:-}"
-  [[ -z "$tgt" ]] && { echo ""; return; }
-
-    if [[ "$tgt" == RANDOM:* ]]; then
-    local list="${tgt#RANDOM:}"
-    local -a raw
-    IFS='|' read -r -a raw <<< "$list"
-
-    local total=0
-    local -a opts
-    local -a wts
-
-    local item opt wt
-    for item in "${raw[@]}"; do
-  
-      if [[ "$item" == *"@"* ]]; then
-        opt="${item%@*}"
-        wt="${item##*@}"
-      else
-        opt="$item"
-        wt="1"
-      fi
-
-      if ! [[ "$wt" =~ ^[0-9]+$ ]] || [[ "$wt" -le 0 ]]; then
-        wt="1"
-      fi
-
-      opts+=("$opt")
-      wts+=("$wt")
-      total=$(( total + wt ))
-    done
-
-    [[ "$total" -le 0 ]] && { echo ""; return; }
-
-    local r=""
-    if [[ -n "${RANDOM-}" ]]; then
-      r="$RANDOM"
+    # BusyBox typically has /dev/stdin, but /proc/self/fd/0 works too.
+    if [ -r /dev/stdin ] 2>/dev/null; then
+      echo /dev/stdin
     else
-      r="$(od -An -N2 -tu2 /dev/urandom 2>/dev/null | tr -d ' ')" || r="0"
-      [[ -z "$r" ]] && r="0"
+      echo /proc/self/fd/0
     fi
-    r=$(( r % total ))
-
-    # pick based on cumulative weights
-    local acc=0
-    local i=0
-    for i in "${!opts[@]}"; do
-      acc=$(( acc + wts[i] ))
-      if [[ "$r" -lt "$acc" ]]; then
-        echo "${opts[i]}"
-        return
-      fi
-    done
-
-    echo "${opts[0]}"
-    return
   fi
-
-  echo "$tgt"
 }
 
-# --- state -------------------------------------------------------------------
-
-LANG_CODE="$(PAYLOAD_GET_CONFIG "$PAYLOAD_NAME" lang 2>/dev/null || true)"
-[ -z "${LANG_CODE:-}" ] && LANG_CODE="it"
-
-LOCALE_FILE="${LOCALES_DIR}/${LANG_CODE}.lang"
-if [ ! -f "$LOCALE_FILE" ]; then
-  LANG_CODE="it"
-  LOCALE_FILE="${LOCALES_DIR}/it.lang"
-fi
-
-NODE="$(PAYLOAD_GET_CONFIG "$PAYLOAD_NAME" node 2>/dev/null || true)"
-[ -z "${NODE:-}" ] && NODE="0"
-
-HISTORY="$(PAYLOAD_GET_CONFIG "$PAYLOAD_NAME" hist 2>/dev/null || true)"  # "0|0.A|0.A.A"
-[ -z "${HISTORY:-}" ] && HISTORY="$NODE"
-
-save_state() {
-  PAYLOAD_SET_CONFIG "$PAYLOAD_NAME" lang "$LANG_CODE" >/dev/null 2>&1 || true
-  PAYLOAD_SET_CONFIG "$PAYLOAD_NAME" node "$NODE" >/dev/null 2>&1 || true
-  PAYLOAD_SET_CONFIG "$PAYLOAD_NAME" hist "$HISTORY" >/dev/null 2>&1 || true
+READ_LINE() {
+  # usage: READ_LINE varname
+  _var="$1"
+  _in="$(INPUT_DEV)"
+  # shellcheck disable=SC2162
+  read "$_var" <"$_in" || return 1
+  return 0
 }
 
-# --- UI helpers (Pager) ------------------------------------------------------
+cls() { printf "\033[2J\033[H" 2>/dev/null || true; }
 
-log_paragraph() {
-  local text="$1"
-  # split on \n to multiple LOG lines (more readable on-device)
-  while IFS= read -r line; do
-    LOG "$line"
-  done <<< "$text"
+term_cols() {
+  if command -v tput >/dev/null 2>&1; then
+    c="$(tput cols 2>/dev/null || true)"
+    [ -n "${c:-}" ] && echo "$c" && return
+  fi
+  echo 80
 }
 
-menu() {
-  LOG cyan "$(t ui.menu.title)"
-  LOG ""
-  LOG yellow "A) $(t ui.menu.resume)"
-  LOG yellow "UP) $(t ui.menu.restart)"
-  LOG yellow "RIGHT) $(t ui.menu.language)"
-  LOG yellow "B) $(t ui.menu.exit)"
-  local b
-  b="$(WAIT_FOR_INPUT)"
-  case "$b" in
-    A) return 0 ;;
-    UP)
-      local r
-      r="$(CONFIRMATION_DIALOG "$(t ui.restart.confirm)")" || return 0
-      if [ "$r" = "$DUCKYSCRIPT_USER_CONFIRMED" ]; then
-        NODE="0"
-        HISTORY="0"
-        save_state
-      fi
+wrap() {
+  cols="$(term_cols)"
+  if command -v fold >/dev/null 2>&1; then
+    fold -s -w "$cols"
+  else
+    cat
+  fi
+}
+
+# ---------- normalizers ----------
+# remove UTF-8 BOM (first line) and strip CRs
+normalize_stream() {
+  awk 'NR==1{sub(/^\xef\xbb\xbf/,"")} {gsub(/\r/,""); print}'
+}
+
+clean_token() {
+  # remove CR and surrounding spaces (defensive)
+  printf "%s" "$1" | tr -d '\r' | awk '{gsub(/^[ \t]+|[ \t]+$/,""); print}'
+}
+
+# ---------- lang ----------
+lang_get() {
+  key="$(clean_token "$1")"
+  normalize_stream <"$LANG_FILE" | awk -v k="$key" '
+    index($0, k "=")==1 {
+      print substr($0, length(k)+2);
+      found=1; exit
+    }
+    END { exit (found?0:1) }
+  '
+}
+
+ui() {
+  k="$1"
+  v="$(lang_get "$k" 2>/dev/null || true)"
+  if [ -n "${v:-}" ]; then
+    printf "%b" "$v"
+  else
+    printf "%s" "$k"
+  fi
+}
+
+p_body() { lang_get "p.$1.body" 2>/dev/null || true; }
+p_c1()   { lang_get "p.$1.c1"   2>/dev/null || true; }
+p_c2()   { lang_get "p.$1.c2"   2>/dev/null || true; }
+
+# ---------- story ----------
+story_get_row() {
+  node="$(clean_token "$1")"
+  normalize_stream <"$STORY_FILE" | awk -F'\t' -v n="$node" '
+    {
+      # strip CR already done, but keep robust
+      gsub(/\r/,"",$1); gsub(/\r/,"",$2); gsub(/\r/,"",$3);
+    }
+    $1==n { print $2 "\t" $3; found=1; exit }
+    END { exit (found?0:1) }
+  '
+}
+
+node_exists() {
+  node="$(clean_token "$1")"
+  normalize_stream <"$STORY_FILE" | awk -F'\t' -v n="$node" '
+    { gsub(/\r/,"",$1) }
+    $1==n { found=1 }
+    END { exit (found?0:1) }
+  '
+}
+
+# RANDOM:NAME@w|NAME2@w2...
+pick_random() {
+  spec="$1"
+  sum=0
+
+  oldIFS="$IFS"; IFS='|'
+  for part in $spec; do
+    IFS="$oldIFS"
+    name="${part%@*}"
+    w="${part#*@}"
+    case "$w" in ''|*[!0-9]*) w=1 ;; esac
+    sum=$((sum + w))
+    IFS='|'
+  done
+  IFS="$oldIFS"
+  [ "$sum" -gt 0 ] || { printf "%s" "${spec%%|*}"; return 0; }
+
+  if [ -r /dev/urandom ] && command -v od >/dev/null 2>&1; then
+    r="$(od -An -N2 -tu2 /dev/urandom 2>/dev/null | tr -d ' ')"
+  else
+    r=$(( ( $(date +%s 2>/dev/null || echo 12345) + $$ ) % 65536 ))
+  fi
+  pick=$(( (r % sum) + 1 ))
+
+  acc=0
+  oldIFS="$IFS"; IFS='|'
+  for part in $spec; do
+    IFS="$oldIFS"
+    name="$(clean_token "${part%@*}")"
+    w="${part#*@}"
+    case "$w" in ''|*[!0-9]*) w=1 ;; esac
+    acc=$((acc + w))
+    if [ "$pick" -le "$acc" ]; then
+      printf "%s" "$name"
       return 0
-      ;;
-    RIGHT)
-      local cur="${LANG_CODE}"
-      local new
-      new="$(TEXT_PICKER "$(t ui.lang.prompt)" "${cur}")" || return 0
-      LANG_CODE="$new"
-      LOCALE_FILE="${LOCALES_DIR}/${LANG_CODE}.lang"
-      if [ ! -f "$LOCALE_FILE" ]; then
-        ERROR_DIALOG "Missing locale: ${LANG_CODE}"
-        LANG_CODE="it"
-        LOCALE_FILE="${LOCALES_DIR}/it.lang"
-      fi
-      save_state
-      return 0
-      ;;
-    B) exit 0 ;;
-    *) return 0 ;;
+    fi
+    IFS='|'
+  done
+  IFS="$oldIFS"
+  printf "%s" "${spec%%|*}"
+}
+
+resolve_next() {
+  raw="$(clean_token "$1")"
+  [ -n "${raw:-}" ] || { printf ""; return 0; }
+  case "$raw" in
+    RANDOM:*) pick_random "${raw#RANDOM:}" ;;
+    *) printf "%s" "$raw" ;;
   esac
 }
 
-render_node() {
-  LOG cyan "$(t ui.title)"
-  LOG ""
-  log_paragraph "$(t "p.${NODE}.body")"
-  LOG ""
-  local c1 c2
-  c1="$(t "p.${NODE}.c1")"
-  c2="$(t "p.${NODE}.c2")"
-  [ -z "$c1" ] && c1="(fine)"
-  [ -z "$c2" ] && c2="(fine)"
-  LOG yellow "▶ 1) ${c1}"
-  LOG yellow "  2) ${c2}"
-  LOG ""
-  LOG "$(t ui.hint)"
+# ---------- save / history ----------
+hist_push() { printf "%s\n" "$(clean_token "$1")" >>"$HIST_FILE" 2>/dev/null || true; }
+
+hist_pop() {
+  [ -f "$HIST_FILE" ] || return 1
+  last="$(tail -n 1 "$HIST_FILE" 2>/dev/null || true)"
+  last="$(clean_token "$last")"
+  [ -n "${last:-}" ] || return 1
+
+  # remove last line
+  tmp="${HIST_FILE}.tmp.$$"
+  awk 'NR>1{print prev} {prev=$0}' "$HIST_FILE" >"$tmp" 2>/dev/null && mv "$tmp" "$HIST_FILE"
+  printf "%s" "$last"
 }
 
-choose_loop() {
-  local sel=1
-  while true; do
-    render_node
-    local b
-    b="$(WAIT_FOR_INPUT)"
-    case "$b" in
-      UP|DOWN)
-        if [ "$sel" = "1" ]; then sel=2; else sel=1; fi
+save_set() { printf "%s\n" "$(clean_token "$1")" >"$SAVE_FILE" 2>/dev/null || true; }
+save_get() { [ -f "$SAVE_FILE" ] && head -n 1 "$SAVE_FILE" 2>/dev/null | tr -d '\r' || true; }
+save_clear() { rm -f "$SAVE_FILE" "$HIST_FILE" 2>/dev/null || true; }
+
+# ---------- UI ----------
+menu_screen() {
+  cls
+  printf "%s\n\n" "$(ui ui.menu.title)" | wrap
+  printf "1) %s\n" "$(ui ui.menu.resume)" | wrap
+  printf "2) %s\n" "$(ui ui.menu.restart)" | wrap
+  printf "3) %s\n\n" "$(ui ui.menu.exit)" | wrap
+  printf "> "
+  READ_LINE ans || { echo ""; return 0; }
+
+  case "$ans" in
+    1) echo "__RESUME__" ;;
+    2)
+      printf "%s [y/N] " "$(ui ui.restart.confirm)" | wrap
+      READ_LINE c || c="n"
+      case "$c" in y|Y) save_clear; echo "__RESTART__" ;; *) echo "" ;; esac
+      ;;
+    3) echo "__EXIT__" ;;
+    *) echo "" ;;
+  esac
+}
+
+show_node() {
+  node="$1"
+  node="$(clean_token "$node")"
+  cls
+
+  printf "%s\n\n" "$(ui ui.title)" | wrap
+  body="$(p_body "$node")"
+  if [ -n "${body:-}" ]; then
+    printf "%b\n" "$body" | wrap
+  else
+    printf "[missing text: p.%s.body]\n" "$node" | wrap
+  fi
+  printf "\n"
+
+  c1="$(p_c1 "$node")"
+  c2="$(p_c2 "$node")"
+
+  row="$(story_get_row "$node" 2>/dev/null || true)"
+  next1="$(printf "%s" "$row" | awk -F'\t' '{print $1}' | tr -d '\r')"
+  next2="$(printf "%s" "$row" | awk -F'\t' '{print $2}' | tr -d '\r')"
+
+  if [ -n "${c1:-}" ]; then
+    if [ -n "${next1:-}" ]; then printf "1) %b\n" "$c1" | wrap
+    else printf "1) %b (N/A)\n" "$c1" | wrap
+    fi
+  fi
+
+  if [ -n "${c2:-}" ]; then
+    if [ -n "${next2:-}" ]; then printf "2) %b\n" "$c2" | wrap
+    else printf "2) %b (N/A)\n" "$c2" | wrap
+    fi
+  fi
+
+  printf "\n[m=menu, b=back] > "
+}
+
+# ---------- main ----------
+main() {
+  [ -r "$STORY_FILE" ] || die "Cannot read story file: $STORY_FILE"
+  [ -r "$LANG_FILE" ] || die "Cannot read lang file: $LANG_FILE"
+
+  if node_exists "START"; then
+    START_NODE="START"
+  elif node_exists "0"; then
+    START_NODE="0"
+  else
+    START_NODE="$(normalize_stream <"$STORY_FILE" | awk -F'\t' 'NF{print $1; exit}')"
+    START_NODE="$(clean_token "$START_NODE")"
+    [ -n "${START_NODE:-}" ] || die "No nodes in story.tsv"
+  fi
+
+  current="$(save_get)"
+  current="$(clean_token "$current")"
+  [ -n "${current:-}" ] || current="$START_NODE"
+
+  while :; do
+    show_node "$current"
+    READ_LINE choice || choice=""
+
+    case "$choice" in
+      m|M)
+        res="$(menu_screen)"
+        case "$res" in
+          "__EXIT__") exit 0 ;;
+          "__RESTART__") current="$START_NODE"; save_set "$current";;
+          "__RESUME__"|"") : ;;
+        esac
         ;;
-      LEFT)
-        menu
-        ;;
-      B)
-        # pop history (keep at least one)
-        if [[ "$HISTORY" == *"|"* ]]; then
-          HISTORY="${HISTORY%|*}"
-          NODE="${HISTORY##*|}"
-          save_state
+      b|B)
+        prev="$(hist_pop 2>/dev/null || true)"
+        if [ -n "${prev:-}" ]; then
+          current="$prev"
+          save_set "$current"
         fi
         ;;
-      A|RIGHT)
-        local nxt_raw nxt
+      1|2)
+        row="$(story_get_row "$current" 2>/dev/null || true)"
+        raw1="$(printf "%s" "$row" | awk -F'\t' '{print $1}')"
+        raw2="$(printf "%s" "$row" | awk -F'\t' '{print $2}')"
 
-        nxt_raw="$(get_next "$NODE" "$sel")"
-
-        if [[ "$sel" == "1" ]] && [[ "$NODE" == "FROGGER" || "$NODE" == "FROGGER.LOSE" ]] && [[ "$nxt_raw" == RANDOM:* ]]; then
-          local roll
-          roll="$(rand_range 7500000)"
-          if [[ "$roll" -eq 42 ]]; then
-            nxt="FROGGER.WIN"
-          else
-            nxt="$(resolve_target "$nxt_raw")"
-          fi
-        else
-          nxt="$(resolve_target "$nxt_raw")"
+        if [ "$choice" = "1" ]; then next="$(resolve_next "$raw1")"
+        else next="$(resolve_next "$raw2")"
         fi
 
-        if [ -z "${nxt:-}" ]; then
-          PROMPT "Fine."
-          exit 0
+        if [ -n "${next:-}" ]; then
+          hist_push "$current"
+          current="$next"
+          save_set "$current"
         fi
-
-        NODE="$nxt"
-        HISTORY="${HISTORY}|${NODE}"
-        save_state
         ;;
-      *)
-        ;;
+      *) : ;;
     esac
-    # Clear console-ish view: just add a separator.
-    LOG "--------------------------------------------------"
   done
 }
 
-# --- sanity checks -----------------------------------------------------------
-
-if [ ! -f "$STORY_TSV" ]; then
-  ERROR_DIALOG "Missing story.tsv"
-  exit 1
-fi
-
-choose_loop
+main "$@"
