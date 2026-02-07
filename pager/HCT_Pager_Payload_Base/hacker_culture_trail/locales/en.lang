@@ -7,6 +7,7 @@ ui.menu.language=Language
 ui.menu.exit=Exit
 ui.lang.prompt=Language code (it/en/...)
 ui.restart.confirm=Restart from the beginning?
+p.WELCOME=Benvenuto in Hacker Culture Trail.\n\nBuon viaggio.\n\n
 p.0.body=The room is alMost dark. There is a slightly open window, it is raining outside, and it is late at night. A neon light flickers above you, emitting a noise similar to that of a fly. With each flicker, the shadows change by half a millimeter. The terminal on the table is the only clear light: a cold rectangle that cuts your fingers when you get close to it. n\nThere is a crumpled sheet of paper on the floor. It has absorbed moisture in the corner and the paper has shriveled. In one corner, a closed black notebook: matte cover, no title. It does not appear to have been forgotten. It appears to have been placed there.\n\nThe cursor flashes on the screen with a regularity that is annoying to say the least. It is an invitation, or a challenge...
 p.0.c1=Scelta 1: Take the shEet and look around the room more closely.
 p.0.c2=Scelta 2: Type on the tErminal

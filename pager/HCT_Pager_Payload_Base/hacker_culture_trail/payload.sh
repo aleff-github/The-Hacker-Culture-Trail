@@ -1,302 +1,214 @@
-#!/bin/sh
-# The Hacker Culture Trail - TSV/LANG engine (POSIX sh / BusyBox friendly)
+#!/bin/bash
+# -----------------------------------------------------------------------------
+# The Hacker Culture Trail - BASE SKELETON (Pager)
+# Obiettivo di questo file:
+# - verificare e preparare caricamento di story/story.tsv (TSV) e locales/it.lang
+# - mostrare un popup "Hello World" con un unico step "Vai avanti"
+# - poi mostrare un popup con due scelte: "Ricomincia" e "Termina"
+#
+# Nota: questo è un "programma base" su cui costruire il gioco. Non usa la storia.
+# -----------------------------------------------------------------------------
 
-set -u
+set -euo pipefail
 
-STORY_FILE="${STORY_FILE:-./story/story.tsv}"
-LANG_FILE="${LANG_FILE:-./locales/it.lang}"
-SAVE_FILE="${SAVE_FILE:-/tmp/hct.save}"
-HIST_FILE="${HIST_FILE:-/tmp/hct.hist}"
+# Nome payload (usato eventualmente per config persistente; qui non è indispensabile)
+PAYLOAD_NAME="hctrail"
 
-die() { printf "ERR: %s\n" "$*" >&2; exit 1; }
+# Directory base del payload (cartella dove sta questo payload.sh)
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ---------- IO ----------
-INPUT_DEV() {
-  # Prefer tty if present, else fallback to stdin
-  if [ -r /dev/tty ] 2>/dev/null; then
-    echo /dev/tty
+# Percorsi standard richiesti dal tuo progetto
+STORY_TSV="${BASE_DIR}/story/story.tsv"
+LOCALES_DIR="${BASE_DIR}/locales"
+
+# In questo esempio fissiamo la lingua a "it"
+LANG_CODE="it"
+LOCALE_FILE="${LOCALES_DIR}/${LANG_CODE}.lang"
+
+# -----------------------------------------------------------------------------
+# i18n minimale (key=value in locales/<lang>.lang)
+# - È lo stesso approccio che già usi nello script attuale. :contentReference[oaicite:1]{index=1}
+# - Qui lo manteniamo perché ti serve come base “pulita”.
+# -----------------------------------------------------------------------------
+
+# Legge il valore associato a una chiave "key" da un file .lang.
+# Formato atteso:
+#   ui.btn.next=Vai avanti
+#   ui.btn.restart=Ricomincia
+#   ui.btn.quit=Termina
+_lang_get() {
+  local key="$1"
+  local file="$2"
+
+  # Match esatto della chiave prima del primo '='
+  # Se trova la riga, stampa tutto ciò che è dopo '=' e termina.
+  awk -F'=' -v k="$key" '$1==k{ $1=""; sub(/^=/,""); print; exit }' "$file"
+}
+
+# Funzione "t" (translate): restituisce la stringa per una chiave.
+# Se la chiave non esiste o il file manca, restituisce stringa vuota.
+t() {
+  local key="$1"
+  local val=""
+
+  if [ -f "$LOCALE_FILE" ]; then
+    val="$(_lang_get "$key" "$LOCALE_FILE" || true)"
+  fi
+
+  # Interpreta \n e sequenze escaped (come nel tuo script) :contentReference[oaicite:2]{index=2}
+  printf '%b' "$val"
+}
+
+# -----------------------------------------------------------------------------
+# TSV: funzioni base per “caricare” la storia (qui NON la useremo)
+# - Ti servono come fondamenta: leggere una riga per id e prendere i next node.
+# -----------------------------------------------------------------------------
+
+# Restituisce la riga TSV corrispondente a un id nodo (prima colonna).
+# TSV atteso:
+#   <id>\t<next1>\t<next2>\t...
+node_line() {
+  local id="$1"
+  awk -F'\t' -v k="$id" '$1==k{print; exit}' "$STORY_TSV"
+}
+
+# Restituisce il “prossimo nodo” (colonna 2 o 3) dato un id e una scelta (1/2).
+# Qui è solo dimostrativo: non lo useremo nella demo Hello World.
+get_next() {
+  local node_id="$1"
+  local choice="$2"
+
+  local line=""
+  line="$(node_line "$node_id" || true)"
+  [ -n "$line" ] || { echo ""; return; }
+
+  if [ "$choice" = "1" ]; then
+    echo "$line" | cut -f2
   else
-    # BusyBox typically has /dev/stdin, but /proc/self/fd/0 works too.
-    if [ -r /dev/stdin ] 2>/dev/null; then
-      echo /dev/stdin
-    else
-      echo /proc/self/fd/0
-    fi
+    echo "$line" | cut -f3
   fi
 }
 
-READ_LINE() {
-  # usage: READ_LINE varname
-  _var="$1"
-  _in="$(INPUT_DEV)"
-  # shellcheck disable=SC2162
-  read "$_var" <"$_in" || return 1
-  return 0
-}
+# -----------------------------------------------------------------------------
+# Controlli di sanità: esistenza file base
+# -----------------------------------------------------------------------------
 
-cls() { printf "\033[2J\033[H" 2>/dev/null || true; }
+# Se manca lo story.tsv, blocchiamo tutto: la base progetto deve esserci.
+if [ ! -f "$STORY_TSV" ]; then
+  ERROR_DIALOG "Missing story.tsv in: ${STORY_TSV}"
+  exit 1
+fi
 
-term_cols() {
-  if command -v tput >/dev/null 2>&1; then
-    c="$(tput cols 2>/dev/null || true)"
-    [ -n "${c:-}" ] && echo "$c" && return
-  fi
-  echo 80
-}
+# Se manca il file lingua italiano, blocchiamo (perché tu lo vuoi caricato).
+if [ ! -f "$LOCALE_FILE" ]; then
+  ERROR_DIALOG "Missing locale file in: ${LOCALE_FILE}"
+  exit 1
+fi
 
-wrap() {
-  cols="$(term_cols)"
-  if command -v fold >/dev/null 2>&1; then
-    fold -s -w "$cols"
-  else
-    cat
-  fi
-}
+# -----------------------------------------------------------------------------
+# UI demo: popup "Hello World" -> popup (Ricomincia / Termina)
+# -----------------------------------------------------------------------------
 
-# ---------- normalizers ----------
-# remove UTF-8 BOM (first line) and strip CRs
-normalize_stream() {
-  awk 'NR==1{sub(/^\xef\xbb\xbf/,"")} {gsub(/\r/,""); print}'
-}
+# Recupero label pulsanti dal file lingua, con fallback hardcoded.
+BTN_NEXT="$(t ui.btn.next)"
+[ -z "$BTN_NEXT" ] && BTN_NEXT="Vai avanti"
 
-clean_token() {
-  # remove CR and surrounding spaces (defensive)
-  printf "%s" "$1" | tr -d '\r' | awk '{gsub(/^[ \t]+|[ \t]+$/,""); print}'
-}
+BTN_RESTART="$(t ui.btn.restart)"
+[ -z "$BTN_RESTART" ] && BTN_RESTART="Ricomincia"
 
-# ---------- lang ----------
-lang_get() {
-  key="$(clean_token "$1")"
-  normalize_stream <"$LANG_FILE" | awk -v k="$key" '
-    index($0, k "=")==1 {
-      print substr($0, length(k)+2);
-      found=1; exit
-    }
-    END { exit (found?0:1) }
-  '
-}
+BTN_QUIT="$(t ui.btn.quit)"
+[ -z "$BTN_QUIT" ] && BTN_QUIT="Termina"
 
-ui() {
-  k="$1"
-  v="$(lang_get "$k" 2>/dev/null || true)"
-  if [ -n "${v:-}" ]; then
-    printf "%b" "$v"
-  else
-    printf "%s" "$k"
-  fi
-}
+# Funzione che mostra il primo popup.
+# Sul Pager, PROMPT è un dialog “one-shot” (un solo bottone di conferma).
+# Non sempre permette di cambiare l’etichetta del bottone, quindi mettiamo
+# l’istruzione nel testo: è semanticamente “Vai avanti”.
 
-p_body() { lang_get "p.$1.body" 2>/dev/null || true; }
-p_c1()   { lang_get "p.$1.c1"   2>/dev/null || true; }
-p_c2()   { lang_get "p.$1.c2"   2>/dev/null || true; }
+# Mostra un popup per un dato nodo (testo preso dal file lingua).
+# Convenzione: nel locales/it.lang il testo sta in node.<ID>.text
+# massimo 500 chars
+show_node_popup() {
+  local node_id="$1"
+  local txt chunk
+  local CHUNK_SIZE=400
 
-# ---------- story ----------
-story_get_row() {
-  node="$(clean_token "$1")"
-  normalize_stream <"$STORY_FILE" | awk -F'\t' -v n="$node" '
-    {
-      # strip CR already done, but keep robust
-      gsub(/\r/,"",$1); gsub(/\r/,"",$2); gsub(/\r/,"",$3);
-    }
-    $1==n { print $2 "\t" $3; found=1; exit }
-    END { exit (found?0:1) }
-  '
-}
+  # txt="$(t "p.${node_id}")"
+  # [ -z "$txt" ] && txt="(testo mancante: p.${node_id})"
+  txt="$(t "p.${node_id}.body")"
+  [ -z "$txt" ] && txt="(testo mancante: p.${node_id}.body)"
 
-node_exists() {
-  node="$(clean_token "$1")"
-  normalize_stream <"$STORY_FILE" | awk -F'\t' -v n="$node" '
-    { gsub(/\r/,"",$1) }
-    $1==n { found=1 }
-    END { exit (found?0:1) }
-  '
-}
+  local total_len=${#txt}
+  local offset=0
 
-# RANDOM:NAME@w|NAME2@w2...
-pick_random() {
-  spec="$1"
-  sum=0
+  while true; do
+    chunk="${txt:offset:CHUNK_SIZE}"
 
-  oldIFS="$IFS"; IFS='|'
-  for part in $spec; do
-    IFS="$oldIFS"
-    name="${part%@*}"
-    w="${part#*@}"
-    case "$w" in ''|*[!0-9]*) w=1 ;; esac
-    sum=$((sum + w))
-    IFS='|'
-  done
-  IFS="$oldIFS"
-  [ "$sum" -gt 0 ] || { printf "%s" "${spec%%|*}"; return 0; }
+    # 1) Qui NON usi PROMPT se non supporta frecce.
+    # Devi usare la tua routine di disegno (o un dialog che non “mangi” i tasti).
+    # ESEMPIO: PROMPT solo come render, ma non va bene se non puoi leggere LEFT.
+    # Idealmente: una funzione tipo DRAW_TEXT/SCREEN + hint in basso.
+    PROMPT "${chunk}\n\n[← indietro]   [→ avanti]"
 
-  if [ -r /dev/urandom ] && command -v od >/dev/null 2>&1; then
-    r="$(od -An -N2 -tu2 /dev/urandom 2>/dev/null | tr -d ' ')"
-  else
-    r=$(( ( $(date +%s 2>/dev/null || echo 12345) + $$ ) % 65536 ))
-  fi
-  pick=$(( (r % sum) + 1 ))
+    # 2) Aspetta un input “vero”
+    key="$(WAIT_FOR_INPUT)"   # <-- deve restituire qualcosa tipo LEFT/RIGHT/OK
 
-  acc=0
-  oldIFS="$IFS"; IFS='|'
-  for part in $spec; do
-    IFS="$oldIFS"
-    name="$(clean_token "${part%@*}")"
-    w="${part#*@}"
-    case "$w" in ''|*[!0-9]*) w=1 ;; esac
-    acc=$((acc + w))
-    if [ "$pick" -le "$acc" ]; then
-      printf "%s" "$name"
-      return 0
-    fi
-    IFS='|'
-  done
-  IFS="$oldIFS"
-  printf "%s" "${spec%%|*}"
-}
-
-resolve_next() {
-  raw="$(clean_token "$1")"
-  [ -n "${raw:-}" ] || { printf ""; return 0; }
-  case "$raw" in
-    RANDOM:*) pick_random "${raw#RANDOM:}" ;;
-    *) printf "%s" "$raw" ;;
-  esac
-}
-
-# ---------- save / history ----------
-hist_push() { printf "%s\n" "$(clean_token "$1")" >>"$HIST_FILE" 2>/dev/null || true; }
-
-hist_pop() {
-  [ -f "$HIST_FILE" ] || return 1
-  last="$(tail -n 1 "$HIST_FILE" 2>/dev/null || true)"
-  last="$(clean_token "$last")"
-  [ -n "${last:-}" ] || return 1
-
-  # remove last line
-  tmp="${HIST_FILE}.tmp.$$"
-  awk 'NR>1{print prev} {prev=$0}' "$HIST_FILE" >"$tmp" 2>/dev/null && mv "$tmp" "$HIST_FILE"
-  printf "%s" "$last"
-}
-
-save_set() { printf "%s\n" "$(clean_token "$1")" >"$SAVE_FILE" 2>/dev/null || true; }
-save_get() { [ -f "$SAVE_FILE" ] && head -n 1 "$SAVE_FILE" 2>/dev/null | tr -d '\r' || true; }
-save_clear() { rm -f "$SAVE_FILE" "$HIST_FILE" 2>/dev/null || true; }
-
-# ---------- UI ----------
-menu_screen() {
-  cls
-  printf "%s\n\n" "$(ui ui.menu.title)" | wrap
-  printf "1) %s\n" "$(ui ui.menu.resume)" | wrap
-  printf "2) %s\n" "$(ui ui.menu.restart)" | wrap
-  printf "3) %s\n\n" "$(ui ui.menu.exit)" | wrap
-  printf "> "
-  READ_LINE ans || { echo ""; return 0; }
-
-  case "$ans" in
-    1) echo "__RESUME__" ;;
-    2)
-      printf "%s [y/N] " "$(ui ui.restart.confirm)" | wrap
-      READ_LINE c || c="n"
-      case "$c" in y|Y) save_clear; echo "__RESTART__" ;; *) echo "" ;; esac
-      ;;
-    3) echo "__EXIT__" ;;
-    *) echo "" ;;
-  esac
-}
-
-show_node() {
-  node="$1"
-  node="$(clean_token "$node")"
-  cls
-
-  printf "%s\n\n" "$(ui ui.title)" | wrap
-  body="$(p_body "$node")"
-  if [ -n "${body:-}" ]; then
-    printf "%b\n" "$body" | wrap
-  else
-    printf "[missing text: p.%s.body]\n" "$node" | wrap
-  fi
-  printf "\n"
-
-  c1="$(p_c1 "$node")"
-  c2="$(p_c2 "$node")"
-
-  row="$(story_get_row "$node" 2>/dev/null || true)"
-  next1="$(printf "%s" "$row" | awk -F'\t' '{print $1}' | tr -d '\r')"
-  next2="$(printf "%s" "$row" | awk -F'\t' '{print $2}' | tr -d '\r')"
-
-  if [ -n "${c1:-}" ]; then
-    if [ -n "${next1:-}" ]; then printf "1) %b\n" "$c1" | wrap
-    else printf "1) %b (N/A)\n" "$c1" | wrap
-    fi
-  fi
-
-  if [ -n "${c2:-}" ]; then
-    if [ -n "${next2:-}" ]; then printf "2) %b\n" "$c2" | wrap
-    else printf "2) %b (N/A)\n" "$c2" | wrap
-    fi
-  fi
-
-  printf "\n[m=menu, b=back] > "
-}
-
-# ---------- main ----------
-main() {
-  [ -r "$STORY_FILE" ] || die "Cannot read story file: $STORY_FILE"
-  [ -r "$LANG_FILE" ] || die "Cannot read lang file: $LANG_FILE"
-
-  if node_exists "START"; then
-    START_NODE="START"
-  elif node_exists "0"; then
-    START_NODE="0"
-  else
-    START_NODE="$(normalize_stream <"$STORY_FILE" | awk -F'\t' 'NF{print $1; exit}')"
-    START_NODE="$(clean_token "$START_NODE")"
-    [ -n "${START_NODE:-}" ] || die "No nodes in story.tsv"
-  fi
-
-  current="$(save_get)"
-  current="$(clean_token "$current")"
-  [ -n "${current:-}" ] || current="$START_NODE"
-
-  while :; do
-    show_node "$current"
-    READ_LINE choice || choice=""
-
-    case "$choice" in
-      m|M)
-        res="$(menu_screen)"
-        case "$res" in
-          "__EXIT__") exit 0 ;;
-          "__RESTART__") current="$START_NODE"; save_set "$current";;
-          "__RESUME__"|"") : ;;
-        esac
-        ;;
-      b|B)
-        prev="$(hist_pop 2>/dev/null || true)"
-        if [ -n "${prev:-}" ]; then
-          current="$prev"
-          save_set "$current"
+    case "$key" in
+      LEFT)
+        # Vai indietro solo se non sei già a inizio testo
+        if [ "$offset" -ge "$CHUNK_SIZE" ]; then
+          offset=$((offset - CHUNK_SIZE))
+        else
+          offset=0
         fi
         ;;
-      1|2)
-        row="$(story_get_row "$current" 2>/dev/null || true)"
-        raw1="$(printf "%s" "$row" | awk -F'\t' '{print $1}')"
-        raw2="$(printf "%s" "$row" | awk -F'\t' '{print $2}')"
-
-        if [ "$choice" = "1" ]; then next="$(resolve_next "$raw1")"
-        else next="$(resolve_next "$raw2")"
+      RIGHT|OK)
+        # Se stai mostrando l'ultima pagina, esci (e poi mostri le scelte)
+        if [ $((offset + CHUNK_SIZE)) -ge "$total_len" ]; then
+          break
         fi
-
-        if [ -n "${next:-}" ]; then
-          hist_push "$current"
-          current="$next"
-          save_set "$current"
-        fi
+        offset=$((offset + CHUNK_SIZE))
         ;;
-      *) : ;;
+      *)
+        # Ignora o gestisci altri tasti
+        ;;
     esac
   done
 }
 
-main "$@"
+# Funzione che mostra il secondo popup con due scelte:
+# - conferma => Ricomincia
+# - annulla  => Termina
+#
+# Uso CONFIRMATION_DIALOG perché è presente nel tuo script. :contentReference[oaicite:3]{index=3}
+# Anche se i bottoni fossero “Yes/No”, nel testo diciamo chiaramente cosa fanno.
+show_popup_end() {
+  local r=""
+  r="$(CONFIRMATION_DIALOG "Cosa vuoi fare?\n\nConferma = $BTN_RESTART\nAnnulla = $BTN_QUIT")" || true
+  echo "$r"
+}
+
+# Loop principale della demo:
+# 1) Hello World
+# 2) popup finale: se restart -> ricomincia da capo; se quit -> esce.
+main() {
+  node_id="WELCOME"
+
+  while true; do
+    show_node_popup "${node_id}"
+
+    local res=""
+    res="$(show_popup_end)"
+
+    # DUCKYSCRIPT_USER_CONFIRMED è la costante che usi già per conferma. :contentReference[oaicite:4]{index=4}
+    if [ "${res:-}" = "${DUCKYSCRIPT_USER_CONFIRMED:-}" ]; then
+      # Ricomincia: torna al primo popup
+      continue
+    else
+      # Termina: chiude il payload
+      exit 0
+    fi
+  done
+}
+
+# Avvio
+main
