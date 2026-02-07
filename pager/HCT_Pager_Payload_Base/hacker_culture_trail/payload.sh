@@ -20,33 +20,42 @@ BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Percorsi standard richiesti dal tuo progetto
 STORY_TSV="${BASE_DIR}/story/story.tsv"
 LOCALES_DIR="${BASE_DIR}/locales"
+node_id="WELCOME"
+NEXT1=""
+NEXT2=""
 
 # In questo esempio fissiamo la lingua a "it"
 LANG_CODE="it"
 LOCALE_FILE="${LOCALES_DIR}/${LANG_CODE}.lang"
 
-# -----------------------------------------------------------------------------
-# i18n minimale (key=value in locales/<lang>.lang)
-# - È lo stesso approccio che già usi nello script attuale. :contentReference[oaicite:1]{index=1}
-# - Qui lo manteniamo perché ti serve come base “pulita”.
-# -----------------------------------------------------------------------------
-
-# Legge il valore associato a una chiave "key" da un file .lang.
-# Formato atteso:
-#   ui.btn.next=Vai avanti
-#   ui.btn.restart=Ricomincia
-#   ui.btn.quit=Termina
 _lang_get() {
   local key="$1"
   local file="$2"
 
-  # Match esatto della chiave prima del primo '='
-  # Se trova la riga, stampa tutto ciò che è dopo '=' e termina.
   awk -F'=' -v k="$key" '$1==k{ $1=""; sub(/^=/,""); print; exit }' "$file"
 }
 
-# Funzione "t" (translate): restituisce la stringa per una chiave.
-# Se la chiave non esiste o il file manca, restituisce stringa vuota.
+sanitize_ids() {
+  _trim_var() {
+    local __name="$1"
+    local __v="${!__name}"
+
+    # rimuovi \r ovunque
+    __v="${__v//$'\r'/}"
+
+    # trim sinistra (spazi+tab)
+    __v="${__v#"${__v%%[!$' \t']*}"}"
+    # trim destra (spazi+tab)
+    __v="${__v%"${__v##*[!$' \t']}"}"
+
+    printf -v "$__name" '%s' "$__v"
+  }
+
+  _trim_var "node_id"
+  _trim_var "NEXT1"
+  _trim_var "NEXT2"
+}
+
 t() {
   local key="$1"
   local val=""
@@ -55,38 +64,44 @@ t() {
     val="$(_lang_get "$key" "$LOCALE_FILE" || true)"
   fi
 
-  # Interpreta \n e sequenze escaped (come nel tuo script) :contentReference[oaicite:2]{index=2}
   printf '%b' "$val"
 }
 
-# -----------------------------------------------------------------------------
-# TSV: funzioni base per “caricare” la storia (qui NON la useremo)
-# - Ti servono come fondamenta: leggere una riga per id e prendere i next node.
-# -----------------------------------------------------------------------------
+node_nexts() {
+  local id="$1" line=""
 
-# Restituisce la riga TSV corrispondente a un id nodo (prima colonna).
-# TSV atteso:
-#   <id>\t<next1>\t<next2>\t...
-node_line() {
-  local id="$1"
-  awk -F'\t' -v k="$id" '$1==k{print; exit}' "$STORY_TSV"
+  # trova la riga: ID<TAB>NEXT1<TAB>NEXT2
+  line="$(grep -m1 -F -- "${id}"$'\t' "$STORY_TSV")" || return 2
+
+  local _id
+  IFS=$'\t' read -r _id NEXT1 NEXT2 <<< "$line"
+
+  LOG "DEBUG: NEXT1=[$NEXT1] NEXT2=[$NEXT2]"
+  return 0
 }
 
-# Restituisce il “prossimo nodo” (colonna 2 o 3) dato un id e una scelta (1/2).
-# Qui è solo dimostrativo: non lo useremo nella demo Hello World.
-get_next() {
+choose_next_node_popup() {
   local node_id="$1"
-  local choice="$2"
+  local c1 c2
+  local key
 
-  local line=""
-  line="$(node_line "$node_id" || true)"
-  [ -n "$line" ] || { echo ""; return; }
+  c1="$(t "p.${node_id}.c1")"
+  c2="$(t "p.${node_id}.c2")"
+  [ -z "$c1" ] && c1="Scelta 1"
+  [ -z "$c2" ] && c2="Scelta 2"
 
-  if [ "$choice" = "1" ]; then
-    echo "$line" | cut -f2
-  else
-    echo "$line" | cut -f3
-  fi
+  # Mostra le due opzioni
+  PROMPT "[←] ${c1}\n[→] ${c2}\n\n"
+
+  # Aspetta LEFT/RIGHT
+  while true; do
+    key="$(WAIT_FOR_INPUT)"
+    case "$key" in
+      LEFT)  return 1 ;;  # scelta c1
+      RIGHT) return 2 ;;  # scelta c2
+      *)     ;;           # ignora altri tasti
+    esac
+  done
 }
 
 # -----------------------------------------------------------------------------
@@ -130,10 +145,8 @@ BTN_QUIT="$(t ui.btn.quit)"
 show_node_popup() {
   local node_id="$1"
   local txt chunk
-  local CHUNK_SIZE=400
+  local CHUNK_SIZE=250
 
-  # txt="$(t "p.${node_id}")"
-  # [ -z "$txt" ] && txt="(testo mancante: p.${node_id})"
   txt="$(t "p.${node_id}.body")"
   [ -z "$txt" ] && txt="(testo mancante: p.${node_id}.body)"
 
@@ -147,7 +160,7 @@ show_node_popup() {
     # Devi usare la tua routine di disegno (o un dialog che non “mangi” i tasti).
     # ESEMPIO: PROMPT solo come render, ma non va bene se non puoi leggere LEFT.
     # Idealmente: una funzione tipo DRAW_TEXT/SCREEN + hint in basso.
-    PROMPT "${chunk}\n\n[← indietro]   [→ avanti]"
+    PROMPT "${chunk}\n\n[←]   [→]"
 
     # 2) Aspetta un input “vero”
     key="$(WAIT_FOR_INPUT)"   # <-- deve restituire qualcosa tipo LEFT/RIGHT/OK
@@ -168,45 +181,46 @@ show_node_popup() {
         fi
         offset=$((offset + CHUNK_SIZE))
         ;;
-      *)
-        # Ignora o gestisci altri tasti
-        ;;
     esac
   done
 }
 
-# Funzione che mostra il secondo popup con due scelte:
-# - conferma => Ricomincia
-# - annulla  => Termina
-#
-# Uso CONFIRMATION_DIALOG perché è presente nel tuo script. :contentReference[oaicite:3]{index=3}
-# Anche se i bottoni fossero “Yes/No”, nel testo diciamo chiaramente cosa fanno.
-show_popup_end() {
-  local r=""
-  r="$(CONFIRMATION_DIALOG "Cosa vuoi fare?\n\nConferma = $BTN_RESTART\nAnnulla = $BTN_QUIT")" || true
-  echo "$r"
-}
-
-# Loop principale della demo:
-# 1) Hello World
-# 2) popup finale: se restart -> ricomincia da capo; se quit -> esce.
 main() {
-  node_id="WELCOME"
 
   while true; do
-    show_node_popup "${node_id}"
+    show_node_popup "$node_id"
 
-    local res=""
-    res="$(show_popup_end)"
+    node_nexts "$node_id" || exit 0
+    sanitize_ids
+    
+    # Popup scelte: NON catturi output, usi il return code
+    set +e
+    choice2="$(choose_next_node_popup "$node_id")"
+    choice=$?
+    set -e
+    case "$choice" in
+      1)  
+          if [[ "$NEXT1" == *END* ]]; then
+            exit 0
+            return 0
+          fi
+          node_id="$NEXT1"
+          ;;
+      2)
+          if [[ "$NEXT2" == *END* ]]; then
+            exit 0
+            return 0
+          fi
+          node_id="$NEXT2"
+          ;;
+      *)
+          exit 0
+          return 0
+          ;;
+    esac
 
-    # DUCKYSCRIPT_USER_CONFIRMED è la costante che usi già per conferma. :contentReference[oaicite:4]{index=4}
-    if [ "${res:-}" = "${DUCKYSCRIPT_USER_CONFIRMED:-}" ]; then
-      # Ricomincia: torna al primo popup
-      continue
-    else
-      # Termina: chiude il payload
-      exit 0
-    fi
+    # Se per qualche motivo il TSV punta a vuoto, esci
+    [ -z "$node_id" ] && exit 0
   done
 }
 
