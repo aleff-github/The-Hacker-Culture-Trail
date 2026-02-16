@@ -20,7 +20,7 @@ Il cursore lampeggia sullo schermo con una regolarità a dir poco fastidiosa, è
 
 [[Scelta 1: Prendere il foglio e guardare meglio la stanza|STANZA.FOGLIO]]
 
-[[Scelta 2: Digita sul terminale|TERMINAL.0]]
+[[Scelta 2: Digita sul terminale|TERMINAL0]]
 
 
 :: ADATTATORE-INSERITO {"position":"100,450","size":"100,100"}
@@ -78,7 +78,7 @@ Provi a puntarlo contro il monitor, come se potesse essere un bersaglio. Premi.
 Il display reagisce con un messaggio breve, "bentornato", seguito da un pulsante "Scopri".
 
 [[Clicca sul pulsante 'Scopri'|SCOPRI-DEFCON]] 
-[[Clicca sulla X e chiudi il programma|TERMINAL.0]]
+[[Clicca sulla X e chiudi il programma|TERMINAL0]]
 
 
 :: FROGGER {"position":"525,400","size":"100,100"}
@@ -396,7 +396,7 @@ Era veramente calda la vite, o è stata solo una impressione?
 Ti senti osservato, confuso.
 
 [[Scelta 1: Svitarla e vedere cosa c'è lì dietro|STANZA.VITE]]
-[[Scelta 2: Lasciare tutto com'è e andare al terminale|TERMINAL.0]]
+[[Scelta 2: Lasciare tutto com'è e andare al terminale|TERMINAL0]]
 
 
 :: STANZA.DEFCON-BADGE {"position":"275,325","size":"100,100"}
@@ -443,7 +443,7 @@ Mi piace pensare (deve essere!) di un’ecologia cibernetica dove siamo liberi d
 
 [[Scelta 1: Cercare scritte nascoste sul retro del foglio|STANZA.FOGLIO.RETRO]]
 
-[[Scelta 2: Tenere il foglio e tornare al terminale|TERMINAL.0]]
+[[Scelta 2: Tenere il foglio e tornare al terminale|TERMINAL0]]
 
 
 :: STANZA.FOGLIO.RETRO {"position":"275,200","size":"100,100"}
@@ -467,7 +467,7 @@ Il neon vibra appena. Il monitor ti illumina le mani. Sullo schermo, il cursore 
 
 Da qualche parte, un dispositivo elettronico fa “tic” a intervalli regolari. Non è un beep digitale, è più un suono metallico, quasi meccanico. Un cuore artificiale, ma di cattivo gusto.
 
-[[Scelta 1: Torna al computer cercando di azzeccare un comando valido|TERMINAL.1]]
+[[Scelta 1: Torna al computer cercando di azzeccare un comando valido|TERMINAL1]]
 [[Scelta 2: Avvicinati al ticchettio metallico|STANZA.DEFCON-BADGE]]
 
 
@@ -479,7 +479,7 @@ Dentro: un cavo corto e un adattatore con scritto “GOL”.
 Lo rigiri tra le dita. Il connettore è “giusto” in quel modo che riconosci senza sapere perché: come una serratura che ti sta già aspettando..
 
 [[Scelta 1: Inserisci il cavo e... |ADATTATORE-INSERITO]]
-[[Scelta 2: Lasciare tutto com'è e andare al terminale|TERMINAL.0]]
+[[Scelta 2: Lasciare tutto com'è e andare al terminale|TERMINAL0]]
 
 
 :: Start {"position":"25,25","size":"100,100"}
@@ -502,8 +502,8 @@ C:$curiosita P:$padronanza R:$responsabilita S:$condivisione A:$autonomia | T:$t
 <<set $debito = 0>>
 
 
-:: TERMINAL.0 {"position":"525,25","size":"100,100"}
-TERMINAL.0
+:: TERMINAL0 {"position":"525,25","size":"100,100"}
+TERMINAL0
 
 Le dita tornano sulla tastiera con un automatismo antico: input → output, domanda → risposta. Il terminale però non ti fa il favore di darti indicazioni. Nessun titolo, nessun banner, nessuna “welcome”. Solo una riga vuota.
 
@@ -513,12 +513,12 @@ Premi Invio. Compare una sola cosa:
 
 È troppo poco per essere un’interfaccia, troppo preciso per essere un errore. Non è un prompt normale. È un dito puntato. È il sistema che dice: “Mostrami come pensi.”
 
-[[Scelta 1: Continuare a digitare cercando di azzeccare un comando valido|TERMINAL.1]]
+[[Scelta 1: Continuare a digitare cercando di azzeccare un comando valido|TERMINAL1]]
 [[Scelta 2: Fermarti e osservare la stanza prima di procedere|STANZA.FOGLIO]]
 
 
-:: TERMINAL.1 {"position":"525,150","size":"100,100"}
-TERMINAL.1
+:: TERMINAL1 {"position":"525,150","size":"100,100"}
+TERMINAL1
 
 Le dita si muovono prima che tu abbia un piano. Il cursore ti ipnotizza, e tu… gli parli.
 

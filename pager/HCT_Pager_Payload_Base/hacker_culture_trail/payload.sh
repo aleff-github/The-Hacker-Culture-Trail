@@ -24,8 +24,7 @@ node_id="WELCOME"
 NEXT1=""
 NEXT2=""
 
-# In questo esempio fissiamo la lingua a "it"
-LANG_CODE="it"
+LANG_CODE="en"
 LOCALE_FILE="${LOCALES_DIR}/${LANG_CODE}.lang"
 
 _lang_get() {
@@ -56,6 +55,45 @@ sanitize_ids() {
   _trim_var "NEXT2"
 }
 
+rand_0_49() {
+  echo $(( RANDOM % 50 ))
+}
+
+resolve_next() {
+  local raw="$1"
+
+  # pulizia base (CR + trim spazi/tab)
+  raw="${raw//$'\r'/}"
+  raw="${raw#"${raw%%[!$' \t']*}"}"
+  raw="${raw%"${raw##*[!$' \t']}"}"
+
+  # Caso normale: non è RANDOM
+  if [[ "$raw" != RANDOM:* ]]; then
+    node_id="$raw"
+    return 0
+  fi
+
+  # Caso RANDOM: X@w1|Y@w2 (continuiamo a leggere così, ma i pesi li ignoriamo)
+  local spec="${raw#RANDOM:}"
+  local left="${spec%%|*}"
+  local right="${spec#*|}"
+
+  local n1="${left%@*}"   # es: FROGGER.WIN
+  local n2="${right%@*}"  # es: FROGGER.LOSE
+
+  local r
+  r="$(rand_0_49)"
+  LOG "Valore random. $r"
+
+  if [ "$r" -eq 42 ]; then
+    node_id="$n1"
+  else
+    node_id="$n2"
+  fi
+
+  return 0
+}
+
 t() {
   local key="$1"
   local val=""
@@ -68,16 +106,33 @@ t() {
 }
 
 node_nexts() {
-  local id="$1" line=""
+  local id="$1"
+  local _id n1 n2 extra
 
-  # trova la riga: ID<TAB>NEXT1<TAB>NEXT2
-  line="$(grep -m1 -F -- "${id}"$'\t' "$STORY_TSV")" || return 2
+  # reset globali
+  NEXT1=""
+  NEXT2=""
 
-  local _id
-  IFS=$'\t' read -r _id NEXT1 NEXT2 <<< "$line"
+  # Legge riga per riga: ID<TAB>NEXT1<TAB>NEXT2
+  while IFS=$'\t' read -r _id n1 n2 extra; do
+    # rimuovi BOM solo sul primo campo (se presente)
+    _id="${_id#$'\ufeff'}"
 
-  LOG "DEBUG: NEXT1=[$NEXT1] NEXT2=[$NEXT2]"
-  return 0
+    # rimuovi CR (file Windows) da tutti i campi importanti
+    _id="${_id//$'\r'/}"
+    n1="${n1//$'\r'/}"
+    n2="${n2//$'\r'/}"
+
+    if [ "$_id" = "$id" ]; then
+      NEXT1="$n1"
+      NEXT2="$n2"
+      LOG "DEBUG node_nexts: id=[$id] NEXT1=[$NEXT1] NEXT2=[$NEXT2]"
+      return 0
+    fi
+  done < "$STORY_TSV"
+
+  LOG "DEBUG node_nexts: id=[$id] NON TROVATO"
+  return 2
 }
 
 choose_next_node_popup() {
@@ -97,6 +152,7 @@ choose_next_node_popup() {
   while true; do
     key="$(WAIT_FOR_INPUT)"
     case "$key" in
+      B) exit 0 ;;
       LEFT)  return 1 ;;  # scelta c1
       RIGHT) return 2 ;;  # scelta c2
       *)     ;;           # ignora altri tasti
@@ -120,19 +176,30 @@ if [ ! -f "$LOCALE_FILE" ]; then
   exit 1
 fi
 
+on_enter_node() {
+  # Chiamata ogni volta che si entra in un nodo (prima di mostrare il testo)
+  local id="$1"
+
+  case "$id" in
+    SCOPRI-DEFCON)
+      RINGTONE "LoveMeBetter:d=16,o=4,b=136:16.a#4,16.p,16.a#4,8p,8.a#4,16.p,16.a#4,32.a4,32f4,16.p,32.a#4,32g4,32.p,32a4,4a#4,8p,8.a#4,16.p,8.a#4,16.p,8a#4,32.g#4,32f#4,32f4,4p,8.a#4,16.p,32.a#4,32.p,16.a#4,16.p,16.a#4,8p,8.a#4,16.p,16.a#4,32.a4,32f4,16.p,32.a#4,32g4,32.p,32a4,4a#4,8p,8.a#4,16.p,8.a#4,16.p,8a#4,32.g#4,32f#4,32f4,4p,8.a#4,16.p,32.a#4,32.p,16.a#4,16.p,16.a#4,8p,8.a#4,16.p,16.a#4,32.a4,32f4,16.p,32.a#4,32g4,32.p,32a4,4a#4,8p,8.a#4,16.p,8.a#4,16.p,8a#4,32.g#4,32f#4,32f4,4p,8.a#4,16.p,32.a#4,32.p,16.a#4,16.p,16.a#4,8p,8.a#4,16.p,16.a#4,32.a4,32f4,16.p,32.a#4,32g4,32.p,32a4,4a#4,8p,8.a#4,16.p,8.a#4,16.p,8a#4,32.g#4,32f#4,32f4,4p,8.a#4,16.p,32.a#4,32.p,16.a#4,16.p,16.a#4,8p,8.a#4,16.p,16.a#4,32.a4,32f4,16.p,32.a#4,32g4,32.p,32a4,4a#4,8p,8.a#4,16.p,8.a#4,16.p,8a#4,32.g#4,32f#4,32f4,4p,8.a#4,16.p,32.a#4,32.p,16.a#4"
+      ;;
+  esac
+}
+
 # -----------------------------------------------------------------------------
 # UI demo: popup "Hello World" -> popup (Ricomincia / Termina)
 # -----------------------------------------------------------------------------
 
 # Recupero label pulsanti dal file lingua, con fallback hardcoded.
-BTN_NEXT="$(t ui.btn.next)"
-[ -z "$BTN_NEXT" ] && BTN_NEXT="Vai avanti"
+# BTN_NEXT="$(t ui.btn.next)"
+# [ -z "$BTN_NEXT" ] && BTN_NEXT="Vai avanti"
 
-BTN_RESTART="$(t ui.btn.restart)"
-[ -z "$BTN_RESTART" ] && BTN_RESTART="Ricomincia"
+# BTN_RESTART="$(t ui.btn.restart)"
+# [ -z "$BTN_RESTART" ] && BTN_RESTART="Ricomincia"
 
-BTN_QUIT="$(t ui.btn.quit)"
-[ -z "$BTN_QUIT" ] && BTN_QUIT="Termina"
+# BTN_QUIT="$(t ui.btn.quit)"
+# [ -z "$BTN_QUIT" ] && BTN_QUIT="Termina"
 
 # Funzione che mostra il primo popup.
 # Sul Pager, PROMPT è un dialog “one-shot” (un solo bottone di conferma).
@@ -185,37 +252,57 @@ show_node_popup() {
   done
 }
 
+check_lang() {
+
+  # Ora lang è garantito essere it o en
+  if [[ "$LANG_CODE" == "it" ]]; then
+    question="Would you like to continue in Italian?"
+    other_lang="en"
+  else
+    question="Would you like to continue in English?"
+    other_lang="it"
+  fi
+
+  resp=$(CONFIRMATION_DIALOG "$question") || exit 0
+
+  if [[ "$resp" == "0" ]]; then
+    LANG_CODE="${other_lang}"
+    LOCALE_FILE="${LOCALES_DIR}/${LANG_CODE}.lang"
+  fi
+}
+
 main() {
+  
+  check_lang
 
   while true; do
     show_node_popup "$node_id"
 
     node_nexts "$node_id" || exit 0
     sanitize_ids
+    on_enter_node "$node_id"
     
-    # Popup scelte: NON catturi output, usi il return code
     set +e
-    choice2="$(choose_next_node_popup "$node_id")"
+    choose_next_node_popup "$node_id"
     choice=$?
     set -e
     case "$choice" in
-      1)  
-          if [[ "$NEXT1" == *END* ]]; then
+      1)
+          resolve_next "$NEXT1"
+          sanitize_ids
+          if [[ "$node_id" == *END* ]]; then
             exit 0
-            return 0
           fi
-          node_id="$NEXT1"
           ;;
       2)
-          if [[ "$NEXT2" == *END* ]]; then
+          resolve_next "$NEXT2"
+          sanitize_ids
+          if [[ "$node_id" == *END* ]]; then
             exit 0
-            return 0
           fi
-          node_id="$NEXT2"
           ;;
       *)
           exit 0
-          return 0
           ;;
     esac
 
