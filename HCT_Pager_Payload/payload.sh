@@ -1,4 +1,7 @@
 #!/bin/bash
+# Title: The Hacker Culture Trail
+# Author: Aleff
+# Version: 1.0
 # -----------------------------------------------------------------------------
 # The Hacker Culture Trail
 #
