@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0d1211" />
   <title>The Hacker Culture Trail</title>
-
+  <base href="/The-Hacker-Culture-Trail/">
   
   <style>
     @font-face {
@@ -234,55 +234,56 @@
   </main>
 
   <script>
-    const audio = document.getElementById("bgm");
-    const overlay = document.getElementById("audioOverlay");
-    const startBtn = document.getElementById("startAudioBtn");
-    const muteBtn = document.getElementById("muteBtn");
-    const replayBtn = document.getElementById("replayBtn");
-    const pauseBtn = document.getElementById("pauseBtn");
+  const audio = document.getElementById("bgm");
+  const overlay = document.getElementById("audioOverlay");
+  const startBtn = document.getElementById("startAudioBtn");
+  const muteBtn = document.getElementById("muteBtn");
+  const replayBtn = document.getElementById("replayBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-    async function tryPlay() {
-      try {
-        await audio.play();
-        overlay.classList.remove("show");
-        overlay.setAttribute("aria-hidden", "true");
-      } catch (e) {
-        overlay.classList.add("show");
-        overlay.setAttribute("aria-hidden", "false");
-      }
+  function hideOverlay() {
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  function showOverlay() {
+    overlay.classList.add("show");
+    overlay.setAttribute("aria-hidden", "false");
+  }
+
+  async function playFromUserGesture() {
+    try {
+      await audio.play();
+      hideOverlay();
+    } catch (e) {
+      showOverlay();
+      console.warn("Audio play failed:", e);
     }
+  }
 
-    startBtn.addEventListener("click", async () => {
-      audio.muted = false;
-      await tryPlay();
-    });
+  startBtn.addEventListener("click", async () => {
+    audio.muted = false;
+    await playFromUserGesture();
+  });
 
-    muteBtn.addEventListener("click", async () => {
-      audio.muted = true;
-      await tryPlay();
-    });
+  muteBtn.addEventListener("click", () => {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.muted = true;
+    hideOverlay();
+  });
 
-    replayBtn.addEventListener("click", async () => {
-      try {
-        audio.currentTime = 0;
-        audio.muted = false;
-        await audio.play();
-      } catch (e) {
-        overlay.classList.add("show");
-      }
-    });
+  replayBtn.addEventListener("click", async () => {
+    audio.currentTime = 0;
+    audio.muted = false;
+    await playFromUserGesture();
+  });
 
-    pauseBtn.addEventListener("click", () => audio.pause());
+  pauseBtn.addEventListener("click", () => audio.pause());
 
-    window.addEventListener("load", () => {
-      tryPlay();
-    });
-
-    window.addEventListener("pointerdown", () => {
-      if (audio.paused) tryPlay();
-    }, { once: true });
-  </script>
+  showOverlay();
+</script>
 </body>
 </html>
